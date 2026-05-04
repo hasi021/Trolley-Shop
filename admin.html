@@ -127,15 +127,15 @@
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
     import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDtbCDbATK5vDeoYgMHOA2qEK0AvaRXLUk",
-        authDomain: "trolley-shop-9c8a1.firebaseapp.com",
-        projectId: "trolley-shop-9c8a1",
-        storageBucket: "trolley-shop-9c8a1.appspot.com",
-        messagingSenderId: "582098420786",
-        appId: "1:582098420786:web:9c8a1"
-    };
-
+   const firebaseConfig = {
+  apiKey: "AIzaSyBUP83LY0J1jtkqo_8vf2nhGtmHHfg8pYw",
+  authDomain: "trolley-shop.firebaseapp.com",
+  projectId: "trolley-shop",
+  storageBucket: "trolley-shop.firebasestorage.app",
+  messagingSenderId: "1032789464105",
+  appId: "1:1032789464105:web:e4937c094e0eca8759b838",
+  measurementId: "G-PVDS7M76GZ"
+};
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);

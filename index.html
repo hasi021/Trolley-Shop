@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trolley Shop - Premium Shopping Experience</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hasi021/Trolley-Shop/main/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -261,9 +262,13 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-content">
-            <div class="logo">
-                <i class="fas fa-shopping-cart"></i>
-                Trolley Shop
+           <div class="logo" style="display:flex;align-items:center;gap:12px;">
+                <img src="https://raw.githubusercontent.com/hasi021/Trolley-Shop/main/logo.png" 
+                     alt="Trolley Shop" 
+                     style="height:45px;width:45px;border-radius:50%;object-fit:cover;border:2px solid #6366f1;box-shadow:0 0 25px rgba(99,102,241,0.6);transition:all 0.3s ease;" 
+                     onmouseover="this.style.transform='scale(1.15) rotate(8deg)';this.style.boxShadow='0 0 35px rgba(99,102,241,0.9)'" 
+                     onmouseout="this.style.transform='scale(1) rotate(0deg)';this.style.boxShadow='0 0 25px rgba(99,102,241,0.6)'">
+                <span style="font-size:24px;font-weight:800;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Trolley Shop</span>
             </div>
             <div class="nav-actions">
                 <button class="cart-btn" onclick="toggleCart()">

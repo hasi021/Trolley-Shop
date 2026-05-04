@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trolley Shop - Next Gen Shopping 2050</title>
-    <!-- FAVICON - BROWSER TAB MEIN LOGO -->
-    <link rel="icon" type="image/png" href="https://i.ibb.co/8X3Qy0J/trolley-logo.png">
+    <!-- FAVICON - SET HAI -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -19,14 +19,18 @@
         .logo{display:flex;align-items:center;gap:12px;font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;transition:transform 0.3s ease}
         .logo:hover{transform:scale(1.05)}
         
-        /* LOGO CIRCLE - HOVER PE 360 GHOOMEGA */
+        /* LOGO - HOVER PE 360 GHOOMEGA - 100% WORKING */
         .logo-img{
             width:50px;height:50px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;
             box-shadow:0 0 30px rgba(99,102,241,0.8),0 0 60px rgba(99,102,241,0.4);
             animation:pulse 2s ease-in-out infinite;overflow:hidden;padding:5px;
-            transition: transform 0.6s ease;cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);cursor: pointer;
         }
-        .logo-img:hover{transform: rotate(360deg);animation: none;}
+        .logo-img:hover{
+            transform: rotate(360deg) scale(1.15);
+            animation: none;
+            box-shadow:0 0 50px rgba(99,102,241,1),0 0 100px rgba(99,102,241,0.8);
+        }
         @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(99,102,241,0.8),0 0 60px rgba(99,102,241,0.4);transform:scale(1)}50%{box-shadow:0 0 50px rgba(99,102,241,1),0 0 100px rgba(99,102,241,0.6);transform:scale(1.05)}}
         .logo-img img{width:100%;height:100%;object-fit:contain}
         
@@ -116,7 +120,8 @@
             <div class="header-content">
                 <div class="logo" onclick="scrollToHome()">
                     <div class="logo-img">
-                        <img src="https://i.ibb.co/8X3Qy0J/trolley-logo.png" alt="Trolley Shop Logo">
+                        <!-- LOGO SET HAI - HOVER PE 360 GHOOMEGA -->
+                        <img src="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png" alt="Trolley Shop Logo">
                     </div>
                     <span>Trolley Shop</span>
                 </div>
@@ -239,7 +244,7 @@
     <script>
         const products=[
             {id:1,name:"Samsung Galaxy S25 Ultra",price:299999,category:"mobile",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600",description:"200MP Camera, 5000mAh Battery, Snapdragon 8 Gen 4",badge:"NEW"},
-            {id:2,name:"iPhone 16 Pro Max",price:399999,category:"mobile",image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",description:"A18 Pro Chip, Titanium Body, 48MP Camera",badge:"HOT"},
+                        {id:2,name:"iPhone 16 Pro Max",price:399999,category:"mobile",image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",description:"A18 Pro Chip, Titanium Body, 48MP Camera",badge:"HOT"},
             {id:3,name:"OnePlus 13 Pro",price:249999,category:"mobile",image:"https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600",description:"120Hz AMOLED, 100W Charging"},
             {id:4,name:"Xiaomi 15 Ultra",price:199999,category:"mobile",image:"https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600",description:"Leica Camera, 120W Fast Charging"},
             {id:5,name:"MacBook Pro M4",price:549999,category:"electronics",image:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600",description:"M4 Chip, 18GB RAM, 512GB SSD",badge:"NEW"},

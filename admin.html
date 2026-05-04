@@ -1,518 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Trolley Shop - Admin Panel PRO</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-    :root{
-      --primary:#667eea;--secondary:#764ba2;--success:#00b894;--danger:#ff4757;
-      --glass:rgba(255,255,255,0.1);--glass-border:rgba(255,255,255,0.2);
-    }
-    *{font-family:'Poppins',sans-serif}
-    body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh}
-    
-    /* Glass Effect */
-   .glass{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px}
-   .card{border:none;box-shadow:0 8px 32px rgba(0,0,0,0.1);transition:all 0.3s}
-   .card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,0.2)}
-    
-    /* Login Screen */
-   .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
-   .login-box{max-width:450px;width:90%}
-   .form-control:focus{box-shadow:0 0 0 0.25rem rgba(102,126,234,0.25);border-color:var(--primary)}
-   .btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));border:none;transition:all 0.3s}
-   .btn-primary:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(102,126,234,0.4)}
-    
-    /* Admin Panel */
-   .admin-panel{display:none;animation:fadeIn 0.5s}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-   .admin-header{background:var(--glass);backdrop-filter:blur(20px)}
-    
-    /* Image Upload */
-   .upload-area{border:3px dashed #ddd;border-radius:15px;padding:30px;text-align:center;cursor:pointer;transition:all 0.3s}
-   .upload-area:hover{border-color:var(--primary);background:rgba(102,126,234,0.05)}
-   .upload-area.dragover{border-color:var(--success);background:rgba(0,184,148,0.1)}
-    #imagePreview{max-width:200px;max-height:200px;border-radius:15px;margin-top:15px;display:none}
-    
-    /* Stats Cards */
-   .stat-card{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white}
-   .stat-card i{font-size:2.5rem;opacity:0.3}
-    
-    /* Table */
-   .table-hover tbody tr{transition:all 0.2s}
-   .table-hover tbody tr:hover{background:rgba(102,126,234,0.05);transform:scale(1.01)}
-   .product-img-thumb{width:50px;height:50px;object-fit:cover;border-radius:10px}
-    
-    /* Animations */
-   .btn{transition:all 0.3s}
-   .btn:hover{transform:translateY(-2px)}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trolley Shop - Admin Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+      .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; }
+      .login-box { max-width: 400px; margin: 100px auto; padding: 40px; }
+      .form-control,.form-select { background: rgba(255,255,255,0.2); border: none; color: white; }
+      .form-control::placeholder { color: rgba(255,255,255,0.7); }
+      .form-control:focus { background: rgba(255,255,255,0.3); color: white; box-shadow: none; }
+      .btn-pro { background: linear-gradient(45deg, #ff6b6b, #ee5a24); border: none; padding: 12px; font-weight: 600; }
+        #dashboard { display: none; }
+      .stat-card { transition: 0.3s; cursor: pointer; }
+      .stat-card:hover { transform: translateY(-5px); }
+      .table-glass { background: rgba(255,255,255,0.05); }
+      .table-glass th,.table-glass td { color: white; border-color: rgba(255,255,255,0.1); }
+    </style>
 </head>
 <body>
 
-  <!-- LOGIN SCREEN -->
-  <div class="login-screen" id="loginScreen">
-    <div class="login-box glass p-5 text-white">
-      <div class="text-center mb-4">
-        <i class="fas fa-lock fa-3x mb-3"></i>
-        <h2 class="fw-bold">TROLLEY SHOP</h2>
-        <p class="opacity-75">Admin Panel PRO Access</p>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Admin Email</label>
-        <input type="email" id="adminEmail" class="form-control form-control-lg" placeholder="admin@trolley.com">
-      </div>
-      <div class="mb-4">
-        <label class="form-label">Password</label>
-        <input type="password" id="adminPassword" class="form-control form-control-lg" placeholder="••••••••">
-      </div>
-      <button onclick="loginAdmin()" class="btn btn-primary btn-lg w-100 mb-3">
-        <i class="fas fa-sign-in-alt me-2"></i>Login to Dashboard
-      </button>
-      <div class="alert alert-danger d-none" id="errorMsg"></div>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+    <div class="login-box glass text-white">
+        <div class="text-center mb-4">
+            <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+            <h2>Trolley Shop</h2>
+            <p>Admin Panel Pro - Firebase</p>
+        </div>
+        <div class="mb-3">
+            <label>Admin Email</label>
+            <input type="email" id="email" class="form-control" placeholder="admin@trolley.com" value="admin@trolley.com">
+        </div>
+        <div class="mb-4">
+            <label>Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Enter password">
+        </div>
+        <button onclick="login()" class="btn btn-pro w-100 text-white">Login to Dashboard</button>
+        <p id="loginError" class="text-warning mt-3 text-center"></p>
     </div>
-  </div>
+</div>
 
-  <!-- ADMIN PANEL -->
-  <div class="admin-panel" id="adminPanel">
-    <header class="admin-header p-3 mb-4 text-white">
-      <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
-        <div>
-          <h3 class="fw-bold mb-0"><i class="fas fa-crown me-2"></i>Trolley Shop PRO</h3>
-          <small id="userEmail"></small>
-        </div>
-        <button class="btn btn-light" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
-      </div>
-    </header>
+<!-- DASHBOARD -->
+<div id="dashboard" class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 text-white">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard Pro</h2>
+        <button onclick="logout()" class="btn btn-light"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
 
-    <div class="container-fluid px-4">
-      
-      <!-- STATS -->
-      <div class="row g-4 mb-4">
-        <div class="col-md-3 col-6">
-          <div class="card stat-card p-4">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <p class="mb-1 opacity-75">Total Products</p>
-                <h2 class="fw-bold mb-0" id="totalProducts">0</h2>
-              </div>
-              <i class="fas fa-box"></i>
+    <!-- STATS -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="glass p-4 text-white stat-card">
+                <h5><i class="fas fa-box"></i> Total Products</h5>
+                <h2 id="totalProducts">0</h2>
             </div>
-          </div>
         </div>
-        <div class="col-md-3 col-6">
-          <div class="card stat-card p-4" style="background:linear-gradient(135deg,#00b894,#00cec9)">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <p class="mb-1 opacity-75">Total Orders</p>
-                <h2 class="fw-bold mb-0" id="totalOrders">0</h2>
-              </div>
-              <i class="fas fa-shopping-cart"></i>
+        <div class="col-md-4">
+            <div class="glass p-4 text-white stat-card">
+                <h5><i class="fas fa-shopping-bag"></i> Total Orders</h5>
+                <h2 id="totalOrders">0</h2>
             </div>
-          </div>
         </div>
-        <div class="col-md-3 col-6">
-          <div class="card stat-card p-4" style="background:linear-gradient(135deg,#fdcb6e,#e17055)">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <p class="mb-1 opacity-75">Revenue</p>
-                <h2 class="fw-bold mb-0">Rs <span id="totalRevenue">0</span></h2>
-              </div>
-              <i class="fas fa-dollar-sign"></i>
+        <div class="col-md-4">
+            <div class="glass p-4 text-white stat-card">
+                <h5><i class="fas fa-rupee-sign"></i> Revenue</h5>
+                <h2 id="totalRevenue">Rs 0</h2>
             </div>
-          </div>
         </div>
-        <div class="col-md-3 col-6">
-          <div class="card stat-card p-4" style="background:linear-gradient(135deg,#ff4757,#ff6348)">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <p class="mb-1 opacity-75">Pending</p>
-                <h2 class="fw-bold mb-0" id="pendingOrders">0</h2>
-              </div>
-              <i class="fas fa-clock"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
 
-      <!-- ADD PRODUCT -->
-      <div class="card mb-4">
-        <div class="card-body p-4">
-          <h4 class="fw-bold mb-4"><i class="fas fa-plus-circle me-2 text-primary"></i>Add New Product</h4>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">Product Name *</label>
-              <input type="text" id="productName" class="form-control" placeholder="Trolley Smart Watch">
+    <!-- ADD PRODUCT -->
+    <div class="glass p-4 text-white mb-4">
+        <h4 class="mb-3"><i class="fas fa-plus-circle"></i> Add New Product</h4>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <input type="text" id="pName" class="form-control" placeholder="Product Name">
             </div>
-            <div class="col-md-3">
-              <label class="form-label fw-semibold">Price (Rs) *</label>
-              <input type="number" id="productPrice" class="form-control" placeholder="2999">
+            <div class="col-md-2 mb-3">
+                <input type="number" id="pPrice" class="form-control" placeholder="Price Rs">
             </div>
-            <div class="col-md-3">
-              <label class="form-label fw-semibold">Old Price (Rs)</label>
-              <input type="number" id="productOldPrice" class="form-control" placeholder="4999">
+            <div class="col-md-2 mb-3">
+                <input type="number" id="pStock" class="form-control" placeholder="Stock Qty">
             </div>
-            <div class="col-md-4">
-              <label class="form-label fw-semibold">Category *</label>
-              <select id="productCategory" class="form-select">
-                <option value="electronics">📱 Electronics</option>
-                <option value="fashion">👕 Fashion</option>
-                <option value="home">🏠 Home & Living</option>
-                <option value="beauty">💄 Beauty</option>
-                <option value="sports">⚽ Sports</option>
-                <option value="grocery">🛒 Grocery</option>
-                <option value="toys">🧸 Toys</option>
-              </select>
+            <div class="col-md-4 mb-3">
+                <input type="file" id="pImage" class="form-control" accept="image/*">
             </div>
-            <div class="col-md-4">
-              <label class="form-label fw-semibold">Stock Quantity *</label>
-              <input type="number" id="productStock" class="form-control" placeholder="50">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label fw-semibold">Rating</label>
-              <input type="number" id="productRating" class="form-control" placeholder="4.5" step="0.1" max="5">
+            <div class="col-12 mb-3">
+                <textarea id="pDesc" class="form-control" placeholder="Product Description" rows="2"></textarea>
             </div>
             <div class="col-12">
-              <label class="form-label fw-semibold">Product Image *</label>
-              <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageFile').click()">
-                <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
-                <h5>Click to Upload Image</h5>
-                <p class="text-muted mb-0">or drag & drop here</p>
-                <input type="file" id="imageFile" accept="image/*" hidden>
-                <img id="imagePreview" src="" alt="Preview">
-              </div>
-              <div class="progress mt-3 d-none" id="uploadProgress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%"></div>
-              </div>
+                <button onclick="addProduct()" class="btn btn-pro text-white"><i class="fas fa-upload"></i> Add Product</button>
+                <span id="uploadStatus" class="ms-3"></span>
             </div>
-            <div class="col-12">
-              <label class="form-label fw-semibold">Description *</label>
-              <textarea id="productDesc" class="form-control" rows="3" placeholder="Product features, warranty, specifications..."></textarea>
-            </div>
-            <div class="col-12">
-              <button class="btn btn-primary btn-lg" onclick="addProduct()">
-                <i class="fas fa-plus me-2"></i>Add Product to Firebase
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <!-- PRODUCTS LIST -->
-      <div class="card mb-4">
-        <div class="card-body p-4">
-          <h4 class="fw-bold mb-4"><i class="fas fa-boxes me-2 text-primary"></i>All Products</h4>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                  <th>Category</th>
-                  <th>Sold</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="productsList">
-                <tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>
-              </tbody>
+    <!-- PRODUCT LIST -->
+    <div class="glass p-4 text-white">
+        <h4 class="mb-3"><i class="fas fa-list"></i> All Products</h4>
+        <div class="table-responsive">
+            <table class="table table-glass">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productList"></tbody>
             </table>
-          </div>
         </div>
-      </div>
-
-      <!-- ORDERS LIST -->
-      <div class="card mb-4">
-        <div class="card-body p-4">
-          <h4 class="fw-bold mb-4"><i class="fas fa-shopping-bag me-2 text-primary"></i>Recent Orders - Live</h4>
-          <div id="ordersList">
-            <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script type="module">
-    import { db, auth, storage } from './firebase-config.js';
-    import { collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+<!-- FIREBASE + JS -->
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-    let currentUser = null;
-    let uploadedImageUrl = '';
+    const firebaseConfig = {
+        apiKey: "AIzaSyDtbCDbATK5vDeoYgMHOA2qEK0AvaRXLUk",
+        authDomain: "trolley-shop-9c8a1.firebaseapp.com",
+        projectId: "trolley-shop-9c8a1",
+        storageBucket: "trolley-shop-9c8a1.appspot.com",
+        messagingSenderId: "582098420786",
+        appId: "1:582098420786:web:9c8a1"
+    };
 
-    // Auth State
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Auto check if already logged in
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUser = user;
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
-        document.getElementById('userEmail').textContent = user.email;
-        loadAdminData();
-      } else {
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('adminPanel').style.display = 'none';
-      }
-    });
-
-    // Login
-    window.loginAdmin = async function() {
-      const email = document.getElementById('adminEmail').value;
-      const password = document.getElementById('adminPassword').value;
-      const errorMsg = document.getElementById('errorMsg');
-      
-      if(!email ||!password) {
-        showError('Please enter email and password');
-        return;
-      }
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (error) {
-        showError(error.message);
-      }
-    }
-
-    function showError(msg) {
-      const errorMsg = document.getElementById('errorMsg');
-      errorMsg.textContent = '❌ ' + msg;
-      errorMsg.classList.remove('d-none');
-      setTimeout(() => errorMsg.classList.add('d-none'), 3000);
-    }
-
-    window.logoutAdmin = async function() {
-      await signOut(auth);
-    }
-
-    // Image Upload
-    document.getElementById('imageFile').addEventListener('change', handleImageUpload);
-    const uploadArea = document.getElementById('uploadArea');
-    
-    uploadArea.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadArea.classList.add('dragover');
-    });
-    
-    uploadArea.addEventListener('dragleave', () => {
-      uploadArea.classList.remove('dragover');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadArea.classList.remove('dragover');
-      const files = e.dataTransfer.files;
-      if(files.length > 0) {
-        document.getElementById('imageFile').files = files;
-        handleImageUpload();
-      }
-    });
-
-    async function handleImageUpload() {
-      const file = document.getElementById('imageFile').files[0];
-      if(!file) return;
-
-      // Preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        document.getElementById('imagePreview').src = e.target.result;
-        document.getElementById('imagePreview').style.display = 'block';
-      }
-      reader.readAsDataURL(file);
-
-      // Upload to Firebase Storage
-      const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      
-      document.getElementById('uploadProgress').classList.remove('d-none');
-      
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          document.querySelector('#uploadProgress.progress-bar').style.width = progress + '%';
-        }, 
-        (error) => {
-          alert('Upload Error: ' + error.message);
-          document.getElementById('uploadProgress').classList.add('d-none');
-        }, 
-        async () => {
-          uploadedImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-          document.getElementById('uploadProgress').classList.add('d-none');
-          showToast('✅ Image uploaded successfully!', 'success');
+        if (user) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadProducts();
+            loadStats();
         }
-      );
+    });
+
+    window.login = function() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+                document.getElementById('loginError').innerText = '';
+            })
+          .catch((error) => {
+                document.getElementById('loginError').innerText = 'Wrong email or password! Firebase: ' + error.message;
+            });
     }
 
-    function loadAdminData() {
-      loadProducts();
-      loadOrders();
-    }
-
-    // Load Products
-    async function loadProducts() {
-      const querySnapshot = await getDocs(collection(db, "products"));
-      const tbody = document.getElementById('productsList');
-      let products = [];
-      
-      querySnapshot.forEach((docSnap) => {
-        products.push({ id: docSnap.id,...docSnap.data() });
-      });
-
-      document.getElementById('totalProducts').textContent = products.length;
-
-      if(products.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted">No products yet. Add your first product above.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = products.map(p => `
-        <tr>
-          <td><img src="${p.image}" class="product-img-thumb" alt="${p.name}"></td>
-          <td><strong>${p.name}</strong><br><small class="text-muted">${p.description?.substring(0,50)}...</small></td>
-          <td><strong class="text-primary">Rs ${p.price}</strong> ${p.oldPrice > p.price? `<br><s class="text-muted small">Rs ${p.oldPrice}</s>` : ''}</td>
-          <td><span class="badge bg-${p.stock > 10? 'success' : 'warning'}">${p.stock}</span></td>
-          <td><span class="badge bg-info">${p.category}</span></td>
-          <td>${p.sold || 0}</td>
-          <td><button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i></button></td>
-        </tr>
-      `).join('');
-    }
-
-    // Load Orders - Real Time
-    async function loadOrders() {
-      const q = query(collection(db, "orders"), orderBy("orderDate", "desc"));
-      onSnapshot(q, (snapshot) => {
-        const ordersList = document.getElementById('ordersList');
-        let orders = [];
-        let totalRevenue = 0;
-        let pendingCount = 0;
-
-        snapshot.forEach((docSnap) => {
-          const order = { id: docSnap.id,...docSnap.data() };
-          orders.push(order);
-          if(order.status === 'Pending') pendingCount++;
-          if(order.status === 'Completed') totalRevenue += order.total;
+    window.logout = function() {
+        signOut(auth).then(() => {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
         });
-
-        document.getElementById('totalOrders').textContent = orders.length;
-        document.getElementById('pendingOrders').textContent = pendingCount;
-        document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
-
-        if(orders.length === 0) {
-          ordersList.innerHTML = '<p class="text-center py-5 text-muted">No orders yet.</p>';
-          return;
-        }
-
-        ordersList.innerHTML = orders.slice(0, 20).map(order => `
-          <div class="card mb-3 border-start border-4 border-primary">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-8">
-                  <h6 class="fw-bold mb-2">${order.customerName}</h6>
-                  <p class="mb-1"><i class="fas fa-phone me-2 text-primary"></i>${order.customerPhone}</p>
-                  <p class="mb-1"><i class="fas fa-map-marker-alt me-2 text-primary"></i>${order.customerCity} - ${order.customerAddress}</p>
-                  <p class="mb-2"><strong>Items:</strong> ${order.items.map(i => `${i.name} x${i.qty}`).join(', ')}</p>
-                  <h5 class="text-danger fw-bold">Total: Rs ${order.total}</h5>
-                </div>
-                <div class="col-md-4 text-md-end">
-                  <span class="badge bg-${order.status === 'Pending'? 'warning' : order.status === 'Completed'? 'success' : 'danger'} mb-3">${order.status}</span>
-                  <select class="form-select form-select-sm" onchange="updateOrderStatus('${order.id}', this.value)">
-                    <option value="Pending" ${order.status==='Pending'?'selected':''}>Pending</option>
-                    <option value="Completed" ${order.status==='Completed'?'selected':''}>Completed</option>
-                    <option value="Cancelled" ${order.status==='Cancelled'?'selected':''}>Cancelled</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      });
     }
 
-    // Update Order Status
-    window.updateOrderStatus = async function(orderId, newStatus) {
-      try {
-        await updateDoc(doc(db, "orders", orderId), { status: newStatus });
-        showToast('Order status updated!', 'success');
-      } catch (error) {
-        showToast('Error: ' + error.message, 'danger');
-      }
-    }
-
-    // Add Product
     window.addProduct = async function() {
-      const name = document.getElementById('productName').value;
-      const price = parseInt(document.getElementById('productPrice').value);
-      const oldPrice = parseInt(document.getElementById('productOldPrice').value) || price;
-      const category = document.getElementById('productCategory').value;
-      const stock = parseInt(document.getElementById('productStock').value);
-      const rating = parseFloat(document.getElementById('productRating').value) || 4.5;
-      const desc = document.getElementById('productDesc').value;
+        const name = document.getElementById('pName').value;
+        const price = document.getElementById('pPrice').value;
+        const stock = document.getElementById('pStock').value;
+        const desc = document.getElementById('pDesc').value;
+        const imageFile = document.getElementById('pImage').files[0];
+        const status = document.getElementById('uploadStatus');
 
-      if(!name ||!price ||!stock ||!desc ||!uploadedImageUrl) {
-        showToast('Please fill all fields and upload image!', 'danger');
-        return;
-      }
-
-      try {
-        await addDoc(collection(db, "products"), {
-          name, price, oldPrice, category, stock, rating,
-          description: desc,
-          image: uploadedImageUrl,
-          sold: 0,
-          createdAt: serverTimestamp()
-        });
-
-        showToast('✅ Product Added Successfully!', 'success');
-        
-        // Clear form
-        document.getElementById('productName').value = '';
-        document.getElementById('productPrice').value = '';
-        document.getElementById('productOldPrice').value = '';
-        document.getElementById('productStock').value = '';
-        document.getElementById('productRating').value = '';
-        document.getElementById('productDesc').value = '';
-        document.getElementById('imagePreview').style.display = 'none';
-        document.getElementById('imageFile').value = '';
-        uploadedImageUrl = '';
-        
-        loadProducts();
-      } catch (error) {
-        showToast('Error: ' + error.message, 'danger');
-      }
-    }
-
-    // Delete Product
-    window.deleteProduct = async function(id) {
-      if(confirm('Are you sure you want to delete this product?')) {
-        try {
-          await deleteDoc(doc(db, "products", id));
-          showToast('Product deleted!', 'success');
-          loadProducts();
-        } catch (error) {
-          showToast('Error: ' + error.message, 'danger');
+        if (!name ||!price ||!stock ||!imageFile) {
+            alert('Fill all fields + select image!');
+            return;
         }
-      }
+
+        status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+        try {
+            // Upload image to Firebase Storage
+            const storageRef = ref(storage, 'products/' + Date.now() + '_' + imageFile.name);
+            await uploadBytes(storageRef, imageFile);
+            const imageUrl = await getDownloadURL(storageRef);
+
+            // Save to Firestore
+            await addDoc(collection(db, "products"), {
+                name: name,
+                price: Number(price),
+                stock: Number(stock),
+                description: desc,
+                image: imageUrl,
+                createdAt: new Date()
+            });
+
+            status.innerHTML = '<i class="fas fa-check text-success"></i> Product Added!';
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pStock').value = '';
+            document.getElementById('pDesc').value = '';
+            document.getElementById('pImage').value = '';
+            
+            setTimeout(() => status.innerHTML = '', 3000);
+        } catch (error) {
+            status.innerHTML = '<i class="fas fa-times text-danger"></i> Error: ' + error.message;
+        }
     }
 
-    // Toast Notification
-    function showToast(msg, type) {
-      const toast = document.createElement('div');
-      toast.className = `alert alert-${type} position-fixed top-0 end-0 m-3`;
-      toast.style.zIndex = '9999';
-      toast.innerHTML = msg;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
+    function loadProducts() {
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            const tbody = document.getElementById('productList');
+            tbody.innerHTML = '';
+            let count = 0;
+            
+            snapshot.forEach((doc) => {
+                count++;
+                const data = doc.data();
+                tbody.innerHTML += `
+                    <tr>
+                        <td><img src="${data.image}" width="50" height="50" style="object-fit:cover; border-radius:8px;"></td>
+                        <td>${data.name}</td>
+                        <td>Rs ${data.price}</td>
+                        <td>${data.stock}</td>
+                        <td><button onclick="deleteProduct('${doc.id}')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('totalProducts').innerText = count;
+        });
     }
-  </script>
+
+    window.deleteProduct = async function(id) {
+        if (confirm('Delete this product?')) {
+            await deleteDoc(doc(db, "products", id));
+        }
+    }
+
+    function loadStats() {
+        // Orders count - dummy for now
+        document.getElementById('totalOrders').innerText = '0';
+        document.getElementById('totalRevenue').innerText = 'Rs 0';
+    }
+</script>
+
 </body>
 </html>

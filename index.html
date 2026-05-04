@@ -3,115 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trolley Shop - Next Gen Shopping 2050</title>
-    <!-- FAVICON - SET HAI -->
+    <title>Trolley Shop V2.0 - Next Gen Shopping</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
         *{margin:0;padding:0;box-sizing:border-box}
-        :root{--primary:#6366f1;--secondary:#8b5cf6;--accent:#ec4899;--dark:#0a0e27;--darker:#050814;--light:#f8fafc;--gray:#94a3b8;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--gradient-2:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);--gradient-3:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+        :root{--primary:#6366f1;--secondary:#8b5cf6;--accent:#ec4899;--dark:#0a0e27;--darker:#050814;--light:#f8fafc;--gray:#94a3b8;--success:#10b981;--danger:#ef4444;--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--gradient-2:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)}
         body{font-family:'Outfit',sans-serif;background:var(--darker);color:var(--light);overflow-x:hidden}
-        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(99,102,241,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(139,92,246,0.15) 0%,transparent 50%),radial-gradient(circle at 40% 20%,rgba(236,72,153,0.1) 0%,transparent 50%);pointer-events:none;z-index:0}
+        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(99,102,241,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(139,92,246,0.15) 0%,transparent 50%);pointer-events:none;z-index:0}
         .container{max-width:1400px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
-        header{background:rgba(10,14,39,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:20px 0;position:sticky;top:0;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+        header{background:rgba(10,14,39,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:20px 0;position:sticky;top:0;z-index:1000}
         .header-content{display:flex;justify-content:space-between;align-items:center;gap:30px}
-        .logo{display:flex;align-items:center;gap:12px;font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;transition:transform 0.3s ease}
-        .logo:hover{transform:scale(1.05)}
-        
-        /* LOGO - HOVER PE 360 GHOOMEGA - 100% WORKING */
-        .logo-img{
-            width:50px;height:50px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;
-            box-shadow:0 0 30px rgba(99,102,241,0.8),0 0 60px rgba(99,102,241,0.4);
-            animation:pulse 2s ease-in-out infinite;overflow:hidden;padding:5px;
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);cursor: pointer;
-        }
-        .logo-img:hover{
-            transform: rotate(360deg) scale(1.15);
-            animation: none;
-            box-shadow:0 0 50px rgba(99,102,241,1),0 0 100px rgba(99,102,241,0.8);
-        }
-        @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(99,102,241,0.8),0 0 60px rgba(99,102,241,0.4);transform:scale(1)}50%{box-shadow:0 0 50px rgba(99,102,241,1),0 0 100px rgba(99,102,241,0.6);transform:scale(1.05)}}
+        .logo{display:flex;align-items:center;gap:12px;font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
+        .logo-img{width:50px;height:50px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(99,102,241,0.8);animation:pulse 2s ease-in-out infinite;overflow:hidden;padding:5px;transition:transform 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);cursor:pointer}
+        .logo-img:hover{transform:rotate(360deg) scale(1.15);animation:none}
+        @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(99,102,241,0.8);transform:scale(1)}50%{box-shadow:0 0 50px rgba(99,102,241,1);transform:scale(1.05)}}
         .logo-img img{width:100%;height:100%;object-fit:contain}
-        
         .search-bar{flex:1;max-width:500px;position:relative}
-        .search-bar input{width:100%;padding:14px 50px 14px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:var(--light);font-size:15px;transition:all 0.3s ease}
-        .search-bar input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,0.1)}
+        .search-bar input{width:100%;padding:14px 50px 14px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:var(--light);font-size:15px}
+        .search-bar input:focus{outline:none;border-color:var(--primary)}
         .search-bar i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--gray)}
         .header-actions{display:flex;gap:15px;align-items:center}
-        .user-info{display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s ease}
-        .user-info:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px)}
-        .cart-icon{position:relative;padding:12px 18px;background:var(--gradient);border-radius:12px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
-        .cart-icon:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(99,102,241,0.5)}
-        .cart-count{position:absolute;top:-8px;right:-8px;background:var(--danger);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid var(--darker)}
-        .top-nav{position:fixed;top:80px;left:0;right:0;background:rgba(10,14,39,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:12px 0;z-index:999;transform:translateY(-100%);transition:transform 0.3s ease}
+        .user-info{display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,255,255,0.05);border-radius:12px;cursor:pointer}
+        .cart-icon{position:relative;padding:12px 18px;background:var(--gradient);border-radius:12px;cursor:pointer}
+        .cart-count{position:absolute;top:-8px;right:-8px;background:var(--danger);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+        .top-nav{position:fixed;top:80px;left:0;right:0;background:rgba(10,14,39,0.95);backdrop-filter:blur(20px);padding:12px 0;z-index:999;transform:translateY(-100%);transition:transform 0.3s ease}
         .top-nav.active{transform:translateY(0)}
         .nav-container{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-        .nav-link{color:var(--light);text-decoration:none;font-weight:600;font-size:14px;padding:8px 16px;border-radius:8px;transition:all 0.3s ease;cursor:pointer}
+        .nav-link{color:var(--light);text-decoration:none;font-weight:600;font-size:14px;padding:8px 16px;border-radius:8px;cursor:pointer}
         .nav-link:hover,.nav-link.active{background:var(--gradient);color:white}
         .hero{padding:80px 0 60px;text-align:center}
-        .hero h1{font-size:64px;font-weight:900;margin-bottom:20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradientShift 5s ease infinite}
-        @keyframes gradientShift{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(20deg)}}
+        .hero h1{font-size:64px;font-weight:900;margin-bottom:20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .hero p{font-size:20px;color:var(--gray);margin-bottom:40px}
         .categories{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-bottom:50px}
         .category-btn{padding:12px 28px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:var(--light);font-weight:600;cursor:pointer;transition:all 0.3s ease}
-        .category-btn:hover,.category-btn.active{background:var(--gradient);border-color:transparent;transform:translateY(-3px);box-shadow:0 10px 30px rgba(99,102,241,0.4)}
+        .category-btn:hover,.category-btn.active{background:var(--gradient);transform:translateY(-3px)}
         .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:30px;margin-bottom:60px}
-        .product-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:24px;overflow:hidden;transition:all 0.4s ease;cursor:pointer;position:relative}
-        .product-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:var(--gradient);opacity:0;transition:opacity 0.4s ease;z-index:0}
-        .product-card:hover{transform:translateY(-10px);border-color:rgba(99,102,241,0.5);box-shadow:0 20px 60px rgba(99,102,241,0.3)}
-        .product-card:hover::before{opacity:0.05}
+        .product-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:24px;overflow:hidden;transition:all 0.4s ease}
+        .product-card:hover{transform:translateY(-10px);border-color:rgba(99,102,241,0.5)}
         .product-img-wrap{position:relative;overflow:hidden;height:280px}
         .product-img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
         .product-card:hover .product-img{transform:scale(1.1)}
-        .product-badge{position:absolute;top:15px;right:15px;padding:6px 14px;background:var(--gradient-2);border-radius:20px;font-size:12px;font-weight:700;color:white;z-index:2}
-        .product-info{padding:24px;position:relative;z-index:1}
+        .product-badge{position:absolute;top:15px;right:15px;padding:6px 14px;background:var(--gradient-2);border-radius:20px;font-size:12px;font-weight:700;color:white}
+        .product-info{padding:24px}
         .product-name{font-size:20px;font-weight:700;margin-bottom:8px}
         .product-desc{color:var(--gray);font-size:14px;margin-bottom:16px;line-height:1.6}
         .product-footer{display:flex;justify-content:space-between;align-items:center}
         .product-price{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .add-cart-btn{padding:12px 24px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
-        .add-cart-btn:hover{transform:scale(1.05);box-shadow:0 12px 32px rgba(99,102,241,0.5)}
+        .add-cart-btn{padding:12px 24px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer}
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);z-index:2000;align-items:center;justify-content:center;padding:20px}
         .modal.active{display:flex}
-        .modal-content{background:var(--dark);border:1px solid rgba(255,255,255,0.1);border-radius:24px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
-        .modal-header{padding:24px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--dark);z-index:10}
+        .modal-content{background:var(--dark);border:1px solid rgba(255,255,255,0.1);border-radius:24px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto}
+        .modal-header{padding:24px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center}
         .modal-header h2{font-size:24px;font-weight:800}
-        .close-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--light);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:20px;transition:all 0.3s ease}
-        .close-btn:hover{background:var(--danger);border-color:var(--danger);transform:rotate(90deg)}
+        .close-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--light);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:20px}
+        .close-btn:hover{background:var(--danger)}
         .modal-body{padding:24px}
-        .cart-item{display:flex;gap:16px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;margin-bottom:16px}
-        .cart-item img{width:80px;height:80px;object-fit:cover;border-radius:12px;flex-shrink:0}
-        .cart-item-info{flex:1;min-width:0}
-        .cart-item-name{font-weight:700;margin-bottom:6px;font-size:16px}
+        .cart-item{display:flex;gap:16px;padding:16px;background:rgba(255,255,255,0.03);border-radius:16px;margin-bottom:16px}
+        .cart-item img{width:80px;height:80px;object-fit:cover;border-radius:12px}
+        .cart-item-info{flex:1}
+        .cart-item-name{font-weight:700;margin-bottom:6px}
         .cart-item-price{color:var(--primary);font-weight:800;font-size:18px}
         .qty-control{display:flex;gap:12px;align-items:center;margin-top:10px}
-        .qty-btn{width:32px;height:32px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--light);cursor:pointer;transition:all 0.3s ease;flex-shrink:0}
-        .qty-btn:hover{background:var(--primary);border-color:var(--primary)}
-        .remove-btn{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--danger);padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.3s ease;flex-shrink:0}
-        .remove-btn:hover{background:var(--danger);color:white}
-        .cart-total{padding:20px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:16px;margin:20px 0;text-align:center}
+        .qty-btn{width:32px;height:32px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--light);cursor:pointer}
+        .remove-btn{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--danger);padding:8px 12px;border-radius:8px;cursor:pointer}
+        .cart-total{padding:20px;background:rgba(99,102,241,0.1);border-radius:16px;margin:20px 0;text-align:center}
         .cart-total h3{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .checkout-btn{width:100%;padding:16px;background:var(--gradient);border:none;border-radius:16px;color:white;font-size:18px;font-weight:800;cursor:pointer;transition:all 0.3s ease;box-shadow:0 10px 30px rgba(99,102,241,0.4)}
-        .checkout-btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(99,102,241,0.6)}
+        .checkout-btn{width:100%;padding:16px;background:var(--gradient);border:none;border-radius:16px;color:white;font-size:18px;font-weight:800;cursor:pointer}
         .form-group{margin-bottom:20px}
         .form-group label{display:block;margin-bottom:8px;font-weight:600;color:var(--gray)}
-        .form-group input{width:100%;padding:14px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:var(--light);font-size:15px;transition:all 0.3s ease}
-        .form-group input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,0.1)}
-        .btn-primary{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;transition:all 0.3s ease}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(99,102,241,0.4)}
+        .form-group input{width:100%;padding:14px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:var(--light)}
+        .btn-primary{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer}
         .empty-state{text-align:center;padding:60px 20px;color:var(--gray)}
-        .empty-state i{font-size:64px;margin-bottom:20px;opacity:0.3}
-        .home-fab{position:fixed;bottom:30px;left:30px;width:56px;height:56px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;cursor:pointer;box-shadow:0 10px 40px rgba(99,102,241,0.5);z-index:998;opacity:0;transform:scale(0);transition:all 0.3s ease}
+        .home-fab{position:fixed;bottom:30px;left:30px;width:56px;height:56px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;cursor:pointer;z-index:998;opacity:0;transform:scale(0);transition:all 0.3s ease}
         .home-fab.show{opacity:1;transform:scale(1)}
-        .home-fab:hover{transform:scale(1.1);box-shadow:0 15px 50px rgba(99,102,241,0.7)}
         .footer{background:rgba(0,0,0,0.3);padding:50px 20px 30px;margin-top:80px;border-top:1px solid rgba(255,255,255,0.1)}
         .footer-content{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:30px}
         .footer-col h3{font-size:18px;margin-bottom:15px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .footer-col p,.footer-col a{color:var(--gray);font-size:14px;line-height:1.8;text-decoration:none;display:block;margin-bottom:8px;cursor:pointer}
-        .footer-col a:hover{color:var(--primary)}
         .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--gray);font-size:13px}
-        @media(max-width:768px){.hero h1{font-size:42px}.header-content{flex-wrap:wrap}.search-bar{order:3;flex-basis:100%}.products-grid{grid-template-columns:1fr}.nav-container{gap:8px;flex-wrap:wrap;padding:0 10px}.nav-link{font-size:12px;padding:6px 12px}.home-fab{left:20px;bottom:20px;width:48px;height:48px}.cart-item{align-items:flex-start}.cart-item-info{width:100%}.remove-btn{margin-top:8px}}
+        @media(max-width:768px){.hero h1{font-size:42px}.header-content{flex-wrap:wrap}.search-bar{order:3;flex-basis:100%}.products-grid{grid-template-columns:1fr}.nav-container{gap:8px}.nav-link{font-size:12px;padding:6px 12px}}
     </style>
 </head>
 <body>
@@ -120,10 +92,9 @@
             <div class="header-content">
                 <div class="logo" onclick="scrollToHome()">
                     <div class="logo-img">
-                        <!-- LOGO SET HAI - HOVER PE 360 GHOOMEGA -->
                         <img src="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png" alt="Trolley Shop Logo">
                     </div>
-                    <span>Trolley Shop</span>
+                    <span>Trolley Shop V2.0</span>
                 </div>
                 <div class="search-bar">
                     <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
@@ -152,7 +123,6 @@
             <a class="nav-link" onclick="filterCategory('gents')"><i class="fas fa-male"></i> Gents</a>
             <a class="nav-link" onclick="filterCategory('girls')"><i class="fas fa-female"></i> Girls</a>
             <a class="nav-link" onclick="filterCategory('kids')"><i class="fas fa-child"></i> Kids</a>
-            <a class="nav-link" onclick="openCart()"><i class="fas fa-shopping-cart"></i> Cart</a>
         </div>
     </nav>
 
@@ -160,8 +130,8 @@
 
     <div class="hero">
         <div class="container">
-            <h1>Next-Gen Shopping Experience</h1>
-            <p>Discover premium products with futuristic design and seamless shopping</p>
+            <h1>Next-Gen Shopping V2.0</h1>
+            <p>Admin controlled products with real-time categories</p>
             <div class="categories">
                 <button class="category-btn active" onclick="filterCategory('all')">All Products</button>
                 <button class="category-btn" onclick="filterCategory('mobile')">Mobile</button>
@@ -179,19 +149,17 @@
         <div class="products-grid" id="productsGrid"></div>
     </div>
 
-    <footer class="footer" id="footer">
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-col">
-                <h3>Trolley Shop</h3>
-                <p>Pakistan's #1 Next-Gen Shopping Platform. Premium products at unbeatable prices.</p>
-                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <h3>Trolley Shop V2.0</h3>
+                <p>Pakistan's #1 Next-Gen Shopping Platform with Admin Control</p>
             </div>
             <div class="footer-col">
                 <h3>Quick Links</h3>
                 <a onclick="scrollToHome()">Home</a>
                 <a onclick="scrollToProducts()">All Products</a>
-                <a onclick="openCart()">My Cart</a>
-                <a onclick="openLogin()">Login</a>
+                <a href="admin.html">Admin Panel</a>
             </div>
             <div class="footer-col">
                 <h3>Categories</h3>
@@ -201,14 +169,8 @@
                 <a onclick="filterCategory('girls')">Girls</a>
                 <a onclick="filterCategory('kids')">Kids</a>
             </div>
-            <div class="footer-col">
-                <h3>Contact Us</h3>
-                <p><i class="fab fa-whatsapp"></i> +92 300 1234567</p>
-                <p><i class="fas fa-envelope"></i> support@trolleyshop.com</p>
-                <p><i class="fas fa-clock"></i> 24/7 Support</p>
-            </div>
         </div>
-        <div class="footer-bottom">© 2026 Trolley Shop. All Rights Reserved. | Made with ❤️ by HASSAN BHAI</div>
+        <div class="footer-bottom">© 2026 Trolley Shop V2.0 | Made by HASSAN BHAI</div>
     </footer>
 
     <div class="modal" id="cartModal">
@@ -242,26 +204,28 @@
     </div>
 
     <script>
-        const products=[
-            {id:1,name:"Samsung Galaxy S25 Ultra",price:299999,category:"mobile",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600",description:"200MP Camera, 5000mAh Battery, Snapdragon 8 Gen 4",badge:"NEW"},
-                        {id:2,name:"iPhone 16 Pro Max",price:399999,category:"mobile",image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",description:"A18 Pro Chip, Titanium Body, 48MP Camera",badge:"HOT"},
-            {id:3,name:"OnePlus 13 Pro",price:249999,category:"mobile",image:"https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600",description:"120Hz AMOLED, 100W Charging"},
-            {id:4,name:"Xiaomi 15 Ultra",price:199999,category:"mobile",image:"https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600",description:"Leica Camera, 120W Fast Charging"},
-            {id:5,name:"MacBook Pro M4",price:549999,category:"electronics",image:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600",description:"M4 Chip, 18GB RAM, 512GB SSD",badge:"NEW"},
-            {id:6,name:"Sony WH-1000XM6",price:89999,category:"electronics",image:"https://images.unsplash.com/photo-1545127398-14699f92334b?w=600",description:"Industry Leading Noise Cancellation",badge:"HOT"},
-            {id:7,name:"Men's Premium Jacket",price:12999,category:"gents",image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600",description:"Winter Collection 2026"},
-            {id:8,name:"Designer Dress",price:15999,category:"girls",image:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600",description:"Elegant Party Wear"},
-            {id:9,name:"Kids Smart Watch",price:8999,category:"kids",image:"https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600",description:"GPS Tracking, Video Call",badge:"NEW"},
-            {id:10,name:"Gaming Console PS6",price:189999,category:"electronics",image:"https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600",description:"4K 120FPS Gaming",badge:"HOT"},
-            {id:11,name:"Gaming Mouse Pro",price:2999,category:"electronics",image:"https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600",description:"16000 DPI, RGB Lighting"},
-            {id:12,name:"Mechanical Keyboard",price:12999,category:"electronics",image:"https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?w=600",description:"Blue Switches, RGB Backlit"}
+        // DEFAULT PRODUCTS - Admin se add karne pe ye replace ho jayenge
+        const defaultProducts=[
+            {id:1,name:"Samsung Galaxy S25 Ultra",price:299999,category:"mobile",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600",description:"200MP Camera, 5000mAh Battery",badge:"NEW"},
+            {id:2,name:"iPhone 16 Pro Max",price:399999,category:"mobile",image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",description:"A18 Pro Chip, Titanium Body",badge:"HOT"},
+            {id:3,name:"MacBook Pro M4",price:549999,category:"electronics",image:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600",description:"M4 Chip, 18GB RAM",badge:"NEW"},
+            {id:4,name:"Men's Premium Jacket",price:12999,category:"gents",image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600",description:"Winter Collection 2026"},
+            {id:5,name:"Designer Dress",price:15999,category:"girls",image:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600",description:"Elegant Party Wear"},
+            {id:6,name:"Kids Smart Watch",price:8999,category:"kids",image:"https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600",description:"GPS Tracking, Video Call",badge:"NEW"}
         ];
+        
+        // V2.0 - ADMIN PRODUCTS LOAD KARNA
+        let products = JSON.parse(localStorage.getItem('adminProducts')) || defaultProducts;
         let cart=JSON.parse(localStorage.getItem('cart'))||[];
         let currentCategory='all';
         
         function renderProducts(filter='all'){
             const grid=document.getElementById('productsGrid');
             const filtered=filter==='all'?products:products.filter(p=>p.category===filter);
+            if(filtered.length===0){
+                grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-box-open"></i><h3>No Products Found</h3><p>Add products from Admin Panel</p></div>`;
+                return;
+            }
             grid.innerHTML=filtered.map(p=>`
                 <div class="product-card">
                     <div class="product-img-wrap">
@@ -325,7 +289,7 @@
             const modal=document.getElementById('cartModal');
             const body=document.getElementById('cartBody');
             if(cart.length===0){
-                body.innerHTML=`<div class="empty-state"><i class="fas fa-shopping-bag"></i><h3>Your cart is empty</h3><p>Add some products to get started</p></div>`;
+                body.innerHTML=`<div class="empty-state"><i class="fas fa-shopping-bag"></i><h3>Your cart is empty</h3></div>`;
             }else{
                 const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
                 body.innerHTML=`
@@ -354,7 +318,7 @@
         function closeCart(){document.getElementById('cartModal').classList.remove('active')}
         function updateQty(id,change){const item=cart.find(i=>i.id===id);if(item){item.qty+=change;if(item.qty<=0){removeFromCart(id)}else{localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();openCart()}}}
         function removeFromCart(id){cart=cart.filter(i=>i.id!==id);localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();openCart()}
-        function checkout(){const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);const msg=`*New Order from Trolley Shop*%0A%0A${cart.map(i=>`${i.name} x${i.qty} = Rs ${(i.price*i.qty).toLocaleString()}`).join('%0A')}%0A%0A*Total: Rs ${total.toLocaleString()}*`;window.open(`https://wa.me/923001234567?text=${msg}`,'_blank')}
+        function checkout(){const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);const msg=`*New Order from Trolley Shop V2.0*%0A%0A${cart.map(i=>`${i.name} x${i.qty} = Rs ${(i.price*i.qty).toLocaleString()}`).join('%0A')}%0A%0A*Total: Rs ${total.toLocaleString()}*`;window.open(`https://wa.me/923001234567?text=${msg}`,'_blank')}
         function openLogin(){document.getElementById('loginModal').classList.add('active')}
         function closeLogin(){document.getElementById('loginModal').classList.remove('active')}
         function loginUser(){const name=document.getElementById('loginName').value;const phone=document.getElementById('loginPhone').value;if(name&&phone){document.getElementById('userName').textContent=name;localStorage.setItem('user',JSON.stringify({name,phone}));closeLogin()}}

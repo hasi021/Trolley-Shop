@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trolley Shop V2.0 - Next Gen Shopping</title>
+    <title>Trolley Shop V2.1 - Next Gen Shopping</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -23,7 +23,7 @@
         .search-bar{flex:1;max-width:500px;position:relative}
         .search-bar input{width:100%;padding:14px 50px 14px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:var(--light);font-size:15px}
         .search-bar input:focus{outline:none;border-color:var(--primary)}
-        .search-bar i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--gray)}
+        .search-bar i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--gray);cursor:pointer}
         .header-actions{display:flex;gap:15px;align-items:center}
         .user-info{display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,255,255,0.05);border-radius:12px;cursor:pointer}
         .cart-icon{position:relative;padding:12px 18px;background:var(--gradient);border-radius:12px;cursor:pointer}
@@ -49,9 +49,12 @@
         .product-info{padding:24px}
         .product-name{font-size:20px;font-weight:700;margin-bottom:8px}
         .product-desc{color:var(--gray);font-size:14px;margin-bottom:16px;line-height:1.6}
-        .product-footer{display:flex;justify-content:space-between;align-items:center}
+        .product-footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
         .product-price{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .add-cart-btn{padding:12px 24px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer}
+        .product-btns{display:flex;gap:8px}
+        .add-cart-btn{padding:12px 18px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;font-size:14px}
+        .buy-now-btn{padding:12px 18px;background:var(--success);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;font-size:14px}
+        .buy-now-btn:hover{background:#0da86f;transform:translateY(-2px)}
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);z-index:2000;align-items:center;justify-content:center;padding:20px}
         .modal.active{display:flex}
         .modal-content{background:var(--dark);border:1px solid rgba(255,255,255,0.1);border-radius:24px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto}
@@ -83,7 +86,21 @@
         .footer-col h3{font-size:18px;margin-bottom:15px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .footer-col p,.footer-col a{color:var(--gray);font-size:14px;line-height:1.8;text-decoration:none;display:block;margin-bottom:8px;cursor:pointer}
         .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--gray);font-size:13px}
-        @media(max-width:768px){.hero h1{font-size:42px}.header-content{flex-wrap:wrap}.search-bar{order:3;flex-basis:100%}.products-grid{grid-template-columns:1fr}.nav-container{gap:8px}.nav-link{font-size:12px;padding:6px 12px}}
+        @media(max-width:768px){
+            .hero h1{font-size:42px}
+            .header-content{flex-wrap:wrap}
+            .search-bar{order:3;flex-basis:100%}
+            .products-grid{grid-template-columns:repeat(2,1fr);gap:15px}
+            .product-img-wrap{height:180px}
+            .product-info{padding:12px}
+            .product-name{font-size:14px;margin-bottom:6px}
+            .product-desc{font-size:12px;margin-bottom:10px}
+            .product-price{font-size:18px}
+            .product-btns{flex-direction:column;gap:6px}
+            .add-cart-btn,.buy-now-btn{padding:8px 12px;font-size:12px;width:100%}
+            .nav-container{gap:8px}
+            .nav-link{font-size:12px;padding:6px 12px}
+        }
     </style>
 </head>
 <body>
@@ -94,11 +111,11 @@
                     <div class="logo-img">
                         <img src="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png" alt="Trolley Shop Logo">
                     </div>
-                    <span>Trolley Shop V2.0</span>
+                    <span>Trolley Shop V2.1</span>
                 </div>
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
-                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="handleSearch(event)">
+                    <i class="fas fa-search" onclick="searchProducts()"></i>
                 </div>
                 <div class="header-actions">
                     <div class="user-info" onclick="openLogin()">
@@ -130,8 +147,8 @@
 
     <div class="hero">
         <div class="container">
-            <h1>Next-Gen Shopping V2.0</h1>
-            <p>Admin controlled products with real-time categories</p>
+            <h1>Next-Gen Shopping V2.1</h1>
+            <p>Buy Now Direct WhatsApp + Admin Control + JazzCash</p>
             <div class="categories">
                 <button class="category-btn active" onclick="filterCategory('all')">All Products</button>
                 <button class="category-btn" onclick="filterCategory('mobile')">Mobile</button>
@@ -145,15 +162,16 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="productsSection">
         <div class="products-grid" id="productsGrid"></div>
     </div>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-col">
-                <h3>Trolley Shop V2.0</h3>
-                <p>Pakistan's #1 Next-Gen Shopping Platform with Admin Control</p>
+                <h3>Trolley Shop V2.1</h3>
+                <p>Pakistan's #1 Next-Gen Shopping Platform with JazzCash</p>
+                <p><i class="fab fa-whatsapp"></i> 0346-2872486</p>
             </div>
             <div class="footer-col">
                 <h3>Quick Links</h3>
@@ -170,7 +188,7 @@
                 <a onclick="filterCategory('kids')">Kids</a>
             </div>
         </div>
-        <div class="footer-bottom">© 2026 Trolley Shop V2.0 | Made by HASSAN BHAI</div>
+        <div class="footer-bottom">© 2026 Trolley Shop V2.1 | Made by HASSAN BHAI</div>
     </footer>
 
     <div class="modal" id="cartModal">
@@ -204,7 +222,7 @@
     </div>
 
     <script>
-        // DEFAULT PRODUCTS - Admin se add karne pe ye replace ho jayenge
+        const WHATSAPP_NUMBER = '923462872486';
         const defaultProducts=[
             {id:1,name:"Samsung Galaxy S25 Ultra",price:299999,category:"mobile",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600",description:"200MP Camera, 5000mAh Battery",badge:"NEW"},
             {id:2,name:"iPhone 16 Pro Max",price:399999,category:"mobile",image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",description:"A18 Pro Chip, Titanium Body",badge:"HOT"},
@@ -214,7 +232,6 @@
             {id:6,name:"Kids Smart Watch",price:8999,category:"kids",image:"https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600",description:"GPS Tracking, Video Call",badge:"NEW"}
         ];
         
-        // V2.0 - ADMIN PRODUCTS LOAD KARNA
         let products = JSON.parse(localStorage.getItem('adminProducts')) || defaultProducts;
         let cart=JSON.parse(localStorage.getItem('cart'))||[];
         let currentCategory='all';
@@ -237,7 +254,10 @@
                         <div class="product-desc">${p.description}</div>
                         <div class="product-footer">
                             <div class="product-price">Rs ${p.price.toLocaleString()}</div>
-                            <button class="add-cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-plus"></i> Add</button>
+                            <div class="product-btns">
+                                <button class="add-cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-plus"></i> Add</button>
+                                <button class="buy-now-btn" onclick="buyNow(${p.id})"><i class="fab fa-whatsapp"></i> Buy</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -249,28 +269,47 @@
             document.querySelectorAll('.category-btn').forEach(btn=>btn.classList.remove('active'));
             event.target.classList.add('active');
             renderProducts(cat);
+            scrollToProducts();
+        }
+        
+        function handleSearch(e){
+            if(e.key === 'Enter'){
+                searchProducts();
+            }
         }
         
         function searchProducts(){
             const query=document.getElementById('searchInput').value.toLowerCase();
+            if(query.trim() === ''){
+                renderProducts(currentCategory);
+                return;
+            }
             const filtered=products.filter(p=>p.name.toLowerCase().includes(query)||p.description.toLowerCase().includes(query));
             const grid=document.getElementById('productsGrid');
-            grid.innerHTML=filtered.map(p=>`
-                <div class="product-card">
-                    <div class="product-img-wrap">
-                        <img src="${p.image}" alt="${p.name}" class="product-img">
-                        ${p.badge?`<span class="product-badge">${p.badge}</span>`:''}
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-desc">${p.description}</div>
-                        <div class="product-footer">
-                            <div class="product-price">Rs ${p.price.toLocaleString()}</div>
-                            <button class="add-cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-plus"></i> Add</button>
+            if(filtered.length===0){
+                grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-search"></i><h3>No Products Found</h3><p>Try different keywords</p></div>`;
+            }else{
+                grid.innerHTML=filtered.map(p=>`
+                    <div class="product-card">
+                        <div class="product-img-wrap">
+                            <img src="${p.image}" alt="${p.name}" class="product-img">
+                            ${p.badge?`<span class="product-badge">${p.badge}</span>`:''}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-desc">${p.description}</div>
+                            <div class="product-footer">
+                                <div class="product-price">Rs ${p.price.toLocaleString()}</div>
+                                <div class="product-btns">
+                                    <button class="add-cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-plus"></i> Add</button>
+                                    <button class="buy-now-btn" onclick="buyNow(${p.id})"><i class="fab fa-whatsapp"></i> Buy</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
+            scrollToProducts();
         }
         
         function addToCart(id){
@@ -279,6 +318,12 @@
             if(existing){existing.qty++}else{cart.push({...product,qty:1})}
             localStorage.setItem('cart',JSON.stringify(cart));
             updateCartCount();
+        }
+        
+        function buyNow(id){
+            const product=products.find(p=>p.id===id);
+            const msg=`*🛒 Buy Now - Trolley Shop V2.1*%0A%0A*Product:* ${product.name}%0A*Price:* Rs ${product.price.toLocaleString()}%0A*Category:* ${product.category.toUpperCase()}%0A*Description:* ${product.description}%0A%0A*📸 Product Image:*%0A${product.image}%0A%0A*🔗 Product Link:*%0A${window.location.origin}${window.location.pathname}%23${product.id}%0A%0APlease confirm this order!`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
         }
         
         function updateCartCount(){
@@ -309,7 +354,7 @@
                         </div>
                     `).join('')}
                     <div class="cart-total"><h3>Total: Rs ${total.toLocaleString()}</h3></div>
-                    <button class="checkout-btn" onclick="checkout()"><i class="fas fa-check"></i> Checkout on WhatsApp</button>
+                    <button class="checkout-btn" onclick="checkout()"><i class="fab fa-whatsapp"></i> Checkout on WhatsApp</button>
                 `;
             }
             modal.classList.add('active');
@@ -318,12 +363,18 @@
         function closeCart(){document.getElementById('cartModal').classList.remove('active')}
         function updateQty(id,change){const item=cart.find(i=>i.id===id);if(item){item.qty+=change;if(item.qty<=0){removeFromCart(id)}else{localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();openCart()}}}
         function removeFromCart(id){cart=cart.filter(i=>i.id!==id);localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();openCart()}
-        function checkout(){const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);const msg=`*New Order from Trolley Shop V2.0*%0A%0A${cart.map(i=>`${i.name} x${i.qty} = Rs ${(i.price*i.qty).toLocaleString()}`).join('%0A')}%0A%0A*Total: Rs ${total.toLocaleString()}*`;window.open(`https://wa.me/923462872486?text=${msg}`,'_blank')}
+        
+        function checkout(){
+            const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+            const msg=`*🛒 New Order from Trolley Shop V2.1*%0A%0A${cart.map(i=>`*Product:* ${i.name}%0A*Qty:* ${i.qty}%0A*Price:* Rs ${(i.price*i.qty).toLocaleString()}%0A*Image:* ${i.image}%0A`).join('%0A')}*━━━━━━━━━━━━━━━*%0A*Total: Rs ${total.toLocaleString()}*%0A%0APlease confirm this order!`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
+        }
+        
         function openLogin(){document.getElementById('loginModal').classList.add('active')}
         function closeLogin(){document.getElementById('loginModal').classList.remove('active')}
         function loginUser(){const name=document.getElementById('loginName').value;const phone=document.getElementById('loginPhone').value;if(name&&phone){document.getElementById('userName').textContent=name;localStorage.setItem('user',JSON.stringify({name,phone}));closeLogin()}}
         function scrollToHome(){window.scrollTo({top:0,behavior:'smooth'})}
-        function scrollToProducts(){document.getElementById('productsGrid').scrollIntoView({behavior:'smooth'})}
+        function scrollToProducts(){document.getElementById('productsSection').scrollIntoView({behavior:'smooth',block:'start'})}
         
         window.onscroll=function(){
             const nav=document.getElementById('topNav');

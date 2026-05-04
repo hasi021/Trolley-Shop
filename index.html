@@ -318,7 +318,7 @@
         function closeCart(){document.getElementById('cartModal').classList.remove('active')}
         function updateQty(id,change){const item=cart.find(i=>i.id===id);if(item){item.qty+=change;if(item.qty<=0){removeFromCart(id)}else{localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();openCart()}}}
         function removeFromCart(id){cart=cart.filter(i=>i.id!==id);localStorage.setItem('cart',JSON.stringify(cart));updateCartCount();openCart()}
-        function checkout(){const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);const msg=`*New Order from Trolley Shop V2.0*%0A%0A${cart.map(i=>`${i.name} x${i.qty} = Rs ${(i.price*i.qty).toLocaleString()}`).join('%0A')}%0A%0A*Total: Rs ${total.toLocaleString()}*`;window.open(`https://wa.me/923001234567?text=${msg}`,'_blank')}
+        function checkout(){const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);const msg=`*New Order from Trolley Shop V2.0*%0A%0A${cart.map(i=>`${i.name} x${i.qty} = Rs ${(i.price*i.qty).toLocaleString()}`).join('%0A')}%0A%0A*Total: Rs ${total.toLocaleString()}*`;window.open(`https://wa.me/923462872486?text=${msg}`,'_blank')}
         function openLogin(){document.getElementById('loginModal').classList.add('active')}
         function closeLogin(){document.getElementById('loginModal').classList.remove('active')}
         function loginUser(){const name=document.getElementById('loginName').value;const phone=document.getElementById('loginPhone').value;if(name&&phone){document.getElementById('userName').textContent=name;localStorage.setItem('user',JSON.stringify({name,phone}));closeLogin()}}

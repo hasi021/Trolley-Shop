@@ -85,11 +85,11 @@
             <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-circle"></i> Invalid username or password!</div>
             <div class="form-group">
                 <label><i class="fas fa-envelope"></i> Email</label>
-                <input type="email" id="adminUsername" placeholder="admin@trolley.com">
+                <input type="email" id="adminUsername" placeholder="Enter email" autocomplete="off" autocapitalize="off" spellcheck="false">
             </div>
             <div class="form-group">
                 <label><i class="fas fa-key"></i> Password</label>
-                <input type="password" id="adminPassword" placeholder="Enter password">
+                <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="new-password">
             </div>
             <button class="btn-primary" onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</button>
         </div>
@@ -223,9 +223,9 @@
     </div>
 
     <script>
-        // FIREBASE CREDENTIALS - TERE HISAB SE SET
-        const ADMIN_USER = 'admin@trolley.com';
-        const ADMIN_PASS = 'admin@123';
+        // OBFUSCATED CREDENTIALS - Thora mushkil kar diya
+        const _0x1a2b = atob('YWRtaW5AdHJvbGxleS5jb20=');
+        const _0x3c4d = atob('YWRtaW5AMTIz');
 
         function checkLogin(){
             const isLoggedIn = localStorage.getItem('adminLoggedIn');
@@ -241,7 +241,7 @@
             const password = document.getElementById('adminPassword').value.trim();
             const errorMsg = document.getElementById('errorMsg');
 
-            if(username === ADMIN_USER && password === ADMIN_PASS){
+            if(username === _0x1a2b && password === _0x3c4d){
                 localStorage.setItem('adminLoggedIn','true');
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('dashboard').classList.add('active');
@@ -345,6 +345,7 @@
             document.getElementById('productDesc').value = '';
             document.getElementById('productBadge').value = '';
             
+            renderProductTable();
             renderProductTable();
             updateStats();
         }

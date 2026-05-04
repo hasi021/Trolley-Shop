@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pro V2.0 - Trolley Shop</title>
+    <title>Admin Login - Trolley Shop V2.0</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -11,6 +11,17 @@
         *{margin:0;padding:0;box-sizing:border-box}
         :root{--primary:#6366f1;--secondary:#8b5cf6;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--gray:#94a3b8;--gradient:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%)}
         body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+        .login-screen.hidden{display:none}
+        .login-box{background:var(--card);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px;max-width:450px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+        .login-box h1{font-size:32px;margin-bottom:10px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+        .login-box p{text-align:center;color:var(--gray);margin-bottom:30px}
+        .login-icon{text-align:center;font-size:64px;color:var(--primary);margin-bottom:20px}
+        .error-msg{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--danger);padding:12px 16px;border-radius:10px;margin-bottom:16px;display:none}
+        .error-msg.show{display:block;animation:shake 0.3s ease}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+        .dashboard{display:none}
+        .dashboard.active{display:block}
         .header{background:var(--gradient);padding:20px 30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(99,102,241,0.3)}
         .header h1{font-size:28px;font-weight:800;display:flex;align-items:center;gap:12px}
         .logout-btn{padding:10px 20px;background:rgba(255,255,255,0.2);border:none;border-radius:10px;color:white;font-weight:600;cursor:pointer;transition:all 0.3s ease}
@@ -62,139 +73,199 @@
         .success-msg{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--success);padding:12px 16px;border-radius:10px;margin-bottom:16px;display:none}
         .success-msg.show{display:block;animation:slideDown 0.3s ease}
         @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-        @media(max-width:768px){.header{padding:16px}.header h1{font-size:20px}.container{padding:20px 15px}.stats-grid{grid-template-columns:1fr;gap:15px}.form-grid{grid-template-columns:1fr}.product-table{font-size:13px}td,th{padding:8px}td img{width:40px;height:40px}.tabs{gap:8px}.tab{padding:10px 16px;font-size:14px}}
+        @media(max-width:768px){.header{padding:16px}.header h1{font-size:20px}.container{padding:20px 15px}.stats-grid{grid-template-columns:1fr;gap:15px}.form-grid{grid-template-columns:1fr}.product-table{font-size:13px}td,th{padding:8px}td img{width:40px;height:40px}.tabs{gap:8px}.tab{padding:10px 16px;font-size:14px}.login-box{padding:30px 20px}}
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1><i class="fas fa-shield-halved"></i> Dashboard Pro V2.0</h1>
-        <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-icon"><i class="fas fa-lock"></i></div>
+            <h1>Admin Login</h1>
+            <p>Enter your credentials to access Dashboard Pro V2.0</p>
+            <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-circle"></i> Invalid username or password!</div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="adminUsername" placeholder="admin@trolley.com">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-key"></i> Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter password">
+            </div>
+            <button class="btn-primary" onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</button>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fas fa-box"></i>
-                <h3 id="totalProducts">0</h3>
-                <p>Total Products</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-shopping-bag"></i>
-                <h3 id="totalOrders">0</h3>
-                <p>Total Orders</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-star"></i>
-                <h3 id="totalReviews">0</h3>
-                <p>Total Reviews</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-rupee-sign"></i>
-                <h3 id="totalRevenue">Rs 0</h3>
-                <p>Total Revenue</p>
-            </div>
+    <div class="dashboard" id="dashboard">
+        <div class="header">
+            <h1><i class="fas fa-shield-halved"></i> Dashboard Pro V2.0</h1>
+            <button class="logout-btn" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('products')"><i class="fas fa-box"></i> Products</button>
-            <button class="tab" onclick="switchTab('orders')"><i class="fas fa-shopping-bag"></i> Orders</button>
-            <button class="tab" onclick="switchTab('reviews')"><i class="fas fa-star"></i> Reviews</button>
-        </div>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-box"></i>
+                    <h3 id="totalProducts">0</h3>
+                    <p>Total Products</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3 id="totalOrders">0</h3>
+                    <p>Total Orders</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3 id="totalReviews">0</h3>
+                    <p>Total Reviews</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-rupee-sign"></i>
+                    <h3 id="totalRevenue">Rs 0</h3>
+                    <p>Total Revenue</p>
+                </div>
+            </div>
 
-        <div id="productsSection" class="content-section active">
-            <div class="card">
-                <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
-                <div id="successMsg" class="success-msg"><i class="fas fa-check-circle"></i> Product added successfully!</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Product Name *</label>
-                        <input type="text" id="productName" placeholder="Samsung Galaxy S25 Ultra">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('products')"><i class="fas fa-box"></i> Products</button>
+                <button class="tab" onclick="switchTab('orders')"><i class="fas fa-shopping-bag"></i> Orders</button>
+                <button class="tab" onclick="switchTab('reviews')"><i class="fas fa-star"></i> Reviews</button>
+            </div>
+
+            <div id="productsSection" class="content-section active">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
+                    <div id="successMsg" class="success-msg"><i class="fas fa-check-circle"></i> Product added successfully!</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Product Name *</label>
+                            <input type="text" id="productName" placeholder="Samsung Galaxy S25 Ultra">
+                        </div>
+                        <div class="form-group">
+                            <label>Price Rs *</label>
+                            <input type="number" id="productPrice" placeholder="299999">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock Qty *</label>
+                            <input type="number" id="productStock" placeholder="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select id="productCategory">
+                                <option value="mobile">Mobile</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="gents">Gents</option>
+                                <option value="girls">Girls</option>
+                                <option value="kids">Kids</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="accessories">Accessories</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Price Rs *</label>
-                        <input type="number" id="productPrice" placeholder="299999">
+                        <label>Image URL *</label>
+                        <input type="text" id="productImage" placeholder="https://images.unsplash.com/photo-...">
                     </div>
                     <div class="form-group">
-                        <label>Stock Qty *</label>
-                        <input type="number" id="productStock" placeholder="50">
+                        <label>Product Description *</label>
+                        <textarea id="productDesc" rows="3" placeholder="Enter product details, features, specifications..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Category *</label>
-                        <select id="productCategory">
-                            <option value="mobile">Mobile</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="gents">Gents</option>
-                            <option value="girls">Girls</option>
-                            <option value="kids">Kids</option>
-                            <option value="fashion">Fashion</option>
-                            <option value="accessories">Accessories</option>
+                        <label>Badge (Optional)</label>
+                        <select id="productBadge">
+                            <option value="">No Badge</option>
+                            <option value="NEW">NEW</option>
+                            <option value="HOT">HOT</option>
                         </select>
                     </div>
+                    <button class="btn-primary" onclick="addProduct()"><i class="fas fa-plus"></i> Add Product</button>
                 </div>
-                <div class="form-group">
-                    <label>Image URL *</label>
-                    <input type="text" id="productImage" placeholder="https://images.unsplash.com/photo-...">
+
+                <div class="card">
+                    <h2><i class="fas fa-list"></i> All Products</h2>
+                    <div class="product-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody"></tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Product Description *</label>
-                    <textarea id="productDesc" rows="3" placeholder="Enter product details, features, specifications..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Badge (Optional)</label>
-                    <select id="productBadge">
-                        <option value="">No Badge</option>
-                        <option value="NEW">NEW</option>
-                        <option value="HOT">HOT</option>
-                    </select>
-                </div>
-                <button class="btn-primary" onclick="addProduct()"><i class="fas fa-plus"></i> Add Product</button>
             </div>
 
-            <div class="card">
-                <h2><i class="fas fa-list"></i> All Products</h2>
-                <div class="product-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productTableBody"></tbody>
-                    </table>
+            <div id="ordersSection" class="content-section">
+                <div class="card">
+                    <h2><i class="fas fa-shopping-bag"></i> Orders Management</h2>
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No orders yet</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="ordersSection" class="content-section">
-            <div class="card">
-                <h2><i class="fas fa-shopping-bag"></i> Orders Management</h2>
-                <div class="empty-state">
-                    <i class="fas fa-inbox"></i>
-                    <p>No orders yet</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="reviewsSection" class="content-section">
-            <div class="card">
-                <h2><i class="fas fa-star"></i> Customer Reviews</h2>
-                <div class="empty-state">
-                    <i class="fas fa-comments"></i>
-                    <p>No reviews yet</p>
+            <div id="reviewsSection" class="content-section">
+                <div class="card">
+                    <h2><i class="fas fa-star"></i> Customer Reviews</h2>
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <p>No reviews yet</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // V2.0 - PRO ADMIN SYSTEM
+        // FIREBASE CREDENTIALS - TERE HISAB SE SET
+        const ADMIN_USER = 'admin@trolley.com';
+        const ADMIN_PASS = 'admin@123';
+
+        function checkLogin(){
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            if(isLoggedIn === 'true'){
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('active');
+                loadDashboard();
+            }
+        }
+
+        function adminLogin(){
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = document.getElementById('adminPassword').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            if(username === ADMIN_USER && password === ADMIN_PASS){
+                localStorage.setItem('adminLoggedIn','true');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('active');
+                loadDashboard();
+            }else{
+                errorMsg.classList.add('show');
+                setTimeout(()=>errorMsg.classList.remove('show'),3000);
+            }
+        }
+
+        function adminLogout(){
+            if(confirm('Are you sure you want to logout?')){
+                localStorage.removeItem('adminLoggedIn');
+                location.reload();
+            }
+        }
+
         let products = JSON.parse(localStorage.getItem('adminProducts')) || [];
         let orders = JSON.parse(localStorage.getItem('adminOrders')) || [];
+
+        function loadDashboard(){
+            renderProductTable();
+            updateStats();
+        }
 
         function updateStats(){
             document.getElementById('totalProducts').textContent = products.length;
@@ -263,12 +334,10 @@
             products.push(newProduct);
             localStorage.setItem('adminProducts', JSON.stringify(products));
             
-            // Success message
             const msg = document.getElementById('successMsg');
             msg.classList.add('show');
             setTimeout(()=>msg.classList.remove('show'),3000);
             
-            // Clear form
             document.getElementById('productName').value = '';
             document.getElementById('productPrice').value = '';
             document.getElementById('productStock').value = '';
@@ -304,16 +373,14 @@
             }
         }
 
-        function logout(){
-            if(confirm('Logout from admin panel?')){
-                alert('Logged out successfully!');
-                window.location.href = 'index.html';
+        document.addEventListener('keypress', function(e){
+            if(e.key === 'Enter' && !document.getElementById('loginScreen').classList.contains('hidden')){
+                adminLogin();
             }
-        }
+        });
 
         window.onload = function(){
-            renderProductTable();
-            updateStats();
+            checkLogin();
         }
     </script>
 </body>

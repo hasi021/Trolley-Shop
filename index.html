@@ -1,213 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trolley Shop - Pakistan's Fastest Shopping</title>
-  <link rel="icon" type="image/png" href="assets/logo.png">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trolley Shop - Premium Shopping Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        body { background: var(--light); color: var(--dark); }
+        
+        /* NAVBAR */
+       .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+       .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       .logo { font-size: 24px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+       .logo i { color: var(--accent); }
+       .nav-actions { display: flex; gap: 15px; align-items: center; }
+       .cart-btn {
+            position: relative;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+       .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: var(--dark);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* HERO */
+       .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 60px 5%;
+            text-align: center;
+            color: white;
+        }
+       .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 15px; }
+       .hero p { font-size: 18px; opacity: 0.9; }
+
+        /* PRODUCTS GRID */
+       .container { max-width: 1400px; margin: 0 auto; padding: 40px 5%; }
+       .section-title { font-size: 32px; font-weight: 700; margin-bottom: 30px; text-align: center; }
+       .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+       .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+       .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+        }
+       .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+       .product-info { padding: 20px; }
+       .product-name { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--dark); }
+       .product-price { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 15px; }
+       .product-actions { display: flex; gap: 10px; }
+       .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+       .btn-primary { background: var(--primary); color: white; }
+       .btn-primary:hover { background: var(--primary-dark); }
+       .btn-whatsapp { background: #25d366; color: white; }
+       .btn-whatsapp:hover { background: #20ba5a; }
+       .stock-badge { 
+            display: inline-block;
+            padding: 4px 12px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+       .stock-low { background: #fef3c7; color: #92400e; }
+
+        /* MODAL */
+       .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+       .modal.active { display: flex; align-items: center; justify-content: center; }
+       .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+       .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 10;
+        }
+       .modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 40px; }
+       .modal-image {
+            width: 100%;
+            border-radius: 16px;
+            cursor: zoom-in;
+        }
+       .modal-image.zoomed { cursor: zoom-out; transform: scale(1.5); }
+       .modal-title { font-size: 28px; font-weight: 700; margin-bottom: 15px; }
+       .modal-price { font-size: 36px; font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+       .modal-desc { color: #64748b; line-height: 1.6; margin-bottom: 25px; }
+
+        /* REVIEWS */
+       .reviews-section { padding: 40px; border-top: 1px solid #e2e8f0; }
+       .reviews-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+       .review-form { background: #f8fafc; padding: 20px; border-radius: 16px; margin-bottom: 30px; }
+       .rating-stars { display: flex; gap: 5px; margin-bottom: 15px; font-size: 28px; }
+       .rating-stars i { color: #e2e8f0; cursor: pointer; transition: all 0.2s; }
+       .rating-stars i.active,.rating-stars i:hover { color: var(--accent); }
+       .review-input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; }
+       .review-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+       .review-user { font-weight: 600; margin-bottom: 5px; }
+       .review-stars { color: var(--accent); margin-bottom: 10px; }
+       .review-text { color: #475569; margin-bottom: 10px; }
+       .admin-reply {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+            margin-top: 10px;
+        }
+       .admin-reply strong { color: var(--primary); }
+
+        /* CART SIDEBAR */
+       .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+        }
+       .cart-sidebar.active { right: 0; }
+       .cart-header {
+            padding: 25px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+       .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+       .cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9; }
+       .cart-item img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; }
+       .cart-footer { padding: 25px; border-top: 1px solid #e2e8f0; }
+       .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+
+        @media (max-width: 768px) {
+           .modal-body { grid-template-columns: 1fr; }
+           .hero h1 { font-size: 32px; }
+           .cart-sidebar { width: 100%; right: -100%; }
+        }
+
+        /* LOADING */
+       .loading { text-align: center; padding: 60px; color: #64748b; }
+       .spinner {
+            border: 3px solid #f1f5f9;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-  
-  <!-- DESKTOP HEADER - Laptop pe ye dikhega -->
-  <header class="desktop-header">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-shopping-cart"></i>
+                Trolley Shop
+            </div>
+            <div class="nav-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-bag"></i>
+                    Cart
+                    <span class="cart-badge" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Premium Shopping, Effortless Experience</h1>
+        <p>Discover quality products with instant WhatsApp ordering</p>
+    </section>
+
+    <!-- PRODUCTS -->
     <div class="container">
-      <div class="nav-wrapper">
-        <div class="logo">
-          <img src="assets/logo.png" alt="Trolley Shop">
-          <span>TROLLEY SHOP</span>
+        <h2 class="section-title">Featured Products</h2>
+        <div id="productsGrid" class="products-grid">
+            <div class="loading">
+                <div class="spinner"></div>
+                Loading products...
+            </div>
         </div>
-        <div class="search-bar">
-          <input type="text" id="searchInputDesktop" placeholder="Search for products, brands and more...">
-          <button onclick="searchProducts()">🔍</button>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            <div id="modalBody"></div>
         </div>
-        <div class="nav-actions">
-          <button class="cart-btn" onclick="openCart()">
-            🛒 Cart <span class="cart-count" id="cartCount">0</span>
-          </button>
-          <button class="login-btn" id="loginBtn">👤 Login</button>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
+            <button onclick="toggleCart()" style="background:none;border:none;font-size:24px;cursor:pointer;"><i class="fas fa-times"></i></button>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- MOBILE HEADER - Mobile pe ye dikhega -->
-  <header class="mobile-header">
-    <div class="header-top">
-      <div class="logo-mini">
-        <img src="assets/logo.png" alt="Trolley Shop">
-        <span>TROLLEY SHOP</span>
-      </div>
-      <div class="header-icons">
-        <button class="icon-btn" onclick="openCart()">
-          🛒<span class="cart-badge" id="cartCountMobile">0</span>
-        </button>
-        <button class="icon-btn" id="loginBtnMobile">👤</button>
-      </div>
-    </div>
-    <div class="search-wrapper">
-      <div class="search-bar-mobile">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Search Trolley Shop">
-      </div>
-    </div>
-  </header>
-
-  <!-- MOBILE ICON GRID - Sirf mobile pe dikhega -->
-  <section class="icon-grid-mobile">
-    <div class="icon-item" onclick="filterCategory('electronics')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#667eea,#764ba2)">📱</div>
-      <span>Mobiles</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('fashion')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#f093fb,#f5576c)">👕</div>
-      <span>Fashion</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('home')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">🏠</div>
-      <span>Home</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('beauty')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">💄</div>
-      <span>Beauty</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('sports')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#fa709a,#fee140)">⚽</div>
-      <span>Sports</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('grocery')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#30cfd0,#330867)">🛒</div>
-      <span>Grocery</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('toys')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#a8edea,#fed6e3)">🧸</div>
-      <span>Toys</span>
-    </div>
-    <div class="icon-item" onclick="filterCategory('all')">
-      <div class="icon-box" style="background:linear-gradient(135deg,#ff9a9e,#fecfef)">🔥</div>
-      <span>All Deals</span>
-    </div>
-  </section>
-
-  <!-- DESKTOP CATEGORIES - Laptop pe ye dikhega -->
-  <nav class="categories-desktop">
-    <div class="container">
-      <button class="cat-btn active" onclick="filterCategory('all')">🔥 All Products</button>
-      <button class="cat-btn" onclick="filterCategory('electronics')">📱 Electronics</button>
-      <button class="cat-btn" onclick="filterCategory('fashion')">👕 Fashion</button>
-      <button class="cat-btn" onclick="filterCategory('home')">🏠 Home & Living</button>
-      <button class="cat-btn" onclick="filterCategory('beauty')">💄 Beauty</button>
-      <button class="cat-btn" onclick="filterCategory('sports')">⚽ Sports</button>
-    </div>
-  </nav>
-
-  <!-- HERO BANNER - Dono pe dikhega -->
-  <section class="hero">
-    <div class="container">
-      <h1>Pakistan's Fastest Online Shopping</h1>
-      <p>Cash on Delivery • 7 Days Return • Free Shipping Above Rs 2000</p>
-      <button class="cta-btn" onclick="document.getElementById('productsGrid').scrollIntoView({behavior:'smooth'})">Start Shopping →</button>
-    </div>
-  </section>
-
-  <!-- FLASH SALE - Mobile pe horizontal, Desktop pe normal -->
-  <section class="flash-sale-box">
-    <div class="container">
-      <div class="flash-header">
-        <h3>⚡ Flash Sale</h3>
-        <div class="flash-timer">Ends in <span id="timer">23:59:59</span></div>
-      </div>
-      <div class="products-horizontal" id="flashProducts"></div>
-    </div>
-  </section>
-
-  <!-- PRODUCTS GRID - Dono pe dikhega -->
-  <main class="container">
-    <div class="section-header">
-      <h2>Featured Products</h2>
-      <span onclick="filterCategory('all')">View All →</span>
-    </div>
-    <div class="products" id="productsGrid"></div>
-  </main>
-
-  <!-- BOTTOM NAV - Sirf mobile pe dikhega -->
-  <nav class="bottom-nav-mobile">
-    <button class="nav-item active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-      <span class="nav-icon">🏠</span>
-      <span>Home</span>
-    </button>
-    <button class="nav-item" onclick="filterCategory('all')">
-      <span class="nav-icon">📂</span>
-      <span>Category</span>
-    </button>
-    <button class="nav-item" onclick="openCart()">
-      <span class="nav-icon">🛒</span>
-      <span>Cart</span>
-      <span class="nav-badge" id="cartCountNav">0</span>
-    </button>
-    <button class="nav-item" id="loginBtnNav">
-      <span class="nav-icon">👤</span>
-      <span>Account</span>
-    </button>
-  </nav>
-
-  <!-- FOOTER - Dono pe dikhega -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <h3>TROLLEY SHOP</h3>
-          <p>Pakistan's trusted online shopping destination.</p>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span>Rs <span id="cartTotal">0</span></span>
+            </div>
+            <button class="btn btn-whatsapp" style="width:100%;" onclick="checkoutWhatsApp()">
+                <i class="fab fa-whatsapp"></i> Checkout via WhatsApp
+            </button>
         </div>
-        <div class="footer-col">
-          <h4>Customer Service</h4>
-          <a href="#">Contact Us</a>
-          <a href="#">Return Policy</a>
-          <a href="#">FAQ</a>
-        </div>
-        <div class="footer-col">
-          <h4>Payment Methods</h4>
-          <p>💵 Cash on Delivery</p>
-          <p>🏦 Bank Transfer</p>
-        </div>
-      </div>
-      <div class="footer-bottom">© 2025 Trolley Shop. All rights reserved.</div>
     </div>
-  </footer>
 
-  <!-- MODALS -->
-  <div class="modal" id="cartModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeCart()">&times;</span>
-      <h2>🛒 Your Cart</h2>
-      <div id="cartItems"></div>
-      <div class="cart-total">
-        <div class="total-row"><span>Subtotal:</span><span>Rs <span id="subtotalPrice">0</span></span></div>
-        <div class="total-row"><span>Delivery:</span><span id="deliveryPrice">Rs 200</span></div>
-        <div class="total-row grand"><span>Total:</span><span>Rs <span id="totalPrice">0</span></span></div>
-      </div>
-      <div class="checkout-form">
-        <h3>Cash on Delivery</h3>
-        <input type="text" id="customerName" placeholder="Full Name *" required>
-        <input type="tel" id="customerPhone" placeholder="03XX-XXXXXXX *" required>
-        <input type="text" id="customerCity" placeholder="City *" required>
-        <textarea id="customerAddress" placeholder="Complete Address *" required rows="2"></textarea>
-        <button class="checkout-btn" onclick="placeOrder()">Confirm Order - COD</button>
-      </div>
-    </div>
-  </div>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, addDoc, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-  <div class="modal" id="loginModal">
-    <div class="modal-content small">
-      <span class="close" onclick="closeLogin()">&times;</span>
-      <h2>Welcome to Trolley Shop</h2>
-      <input type="email" id="loginEmail" placeholder="Email">
-      <input type="password" id="loginPassword" placeholder="Password">
-      <button onclick="loginUser()" class="login-main-btn">Login</button>
-      <button onclick="signupUser()" class="secondary">Create Account</button>
-    </div>
-  </div>
+        const firebaseConfig = {
+          apiKey: "AIzaSyBUP83LY0J1jtkqo_8vf2nhGtmHHfg8pYw",
+          authDomain: "trolley-shop.firebaseapp.com",
+          projectId: "trolley-shop",
+          storageBucket: "trolley-shop.firebasestorage.app",
+          messagingSenderId: "1032789464105",
+          appId: "1:1032789464105:web:e4937c094e0eca8759b838",
+          measurementId: "G-PVDS7M76GZ"
+        };
 
-  <script type="module" src="app.js"></script>
-</body>
-</html>
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let products = [];
+        let cart = JSON.parse(localStorage.getItem('trolleyCart') || '[]');
+        let currentRating = 0;
+        let currentProductId = null;
+
+        // YOUR WHATSAPP NUMBER - YAHAN APNA NUMBER DALO
+        const ADMIN_WHATSAPP = "923001234567"; // Format: 92XXXXXXXXXX
+
+        // LOAD PRODUCTS
+        async function loadProducts() {
+            const snapshot = await getDocs(query(collection(db, 'products'), orderBy('createdAt', 'desc')));
+            products = [];
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            if (snapshot.empty) {
+                grid.innerHTML = '<div class="loading">No products yet. Check back soon!</div>';
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const data = { id: doc.id,...doc.data() };
+                products.push(data);
+                
+                const stockClass = data.stock < 10? 'stock-low' : '';
+                grid.innerHTML += `
+                    <div class="product-card" onclick="openProduct('${doc.id}')">
+                        <img src="${data.imageUrl}" class="product-image" alt="${data.name}">
+                        <div class="product-info">
+                            <span class="stock-badge ${stockClass}">
+                                ${data.stock > 0? `${data.stock} in stock` : 'Out of stock'}
+                            </span>
+                            <div class="product-name">${data.name}</div>
+                            <div class="product-price">Rs ${data.price.toLocaleString()}</div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('${doc.id}')">
+                                    <i class="fas fa-cart-plus"></i> Add
+                                </button>
+                                <button class="btn btn-whatsapp" onclick="event.stopPropagation(); buyNowWhatsApp('${doc.id}')">
+                                    <i class="fab fa-whatsapp"></i> Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // OPEN PRODUCT MODAL
+        window.openProduct = async (id) => {
+            currentProductId = id;
+            const product = products.find(p => p.id === id);
+            const modal = document.getElementById('productModal');
+            const body = document.getElementById('modalBody');
+            
+            body.innerHTML = `
+                <div>
+                    <img src="${product.imageUrl}" class="modal-image" id="modalImg" onclick="toggleZoom()">
+                </div>
+                <div>
+                    <h2 class="modal-title">${product.name}</h2>
+                    <div class="modal-price">Rs ${product.price.toLocaleString()}</div>
+                    <p class="modal-desc">${product.desc}</p>
+                    <span class="stock-badge ${product.stock < 10? 'stock-low' : ''}">
+                        ${product.stock > 0? `${product.stock} pieces available` : 'Out of stock'}
+                    </span>
+                    <div style="display:flex;gap:10px;margin-top:25px;">
+                        <button class="btn btn-primary" style="flex:1;" onclick="addToCart('${id}'); closeModal();">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                        <button class="btn btn-whatsapp" style="flex:1;" onclick="buyNowWhatsApp('${id}')">
+                            <i class="fab fa-whatsapp"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+                <div class="reviews-section" style="grid-column: 1/-1;">
+                    <div class="reviews-header">
+                        <h3><i class="fas fa-star"></i> Customer Reviews</h3>
+                    </div>
+                    
+                    <div class="review-form">
+                        <h4 style="margin-bottom:15px;">Write a Review</h4>
+                        <div class="rating-stars" id="ratingStars">
+                            ${[1,2,3,4,5].map(i => `<i class="fas fa-star" onclick="setRating(${i})"></i>`).join('')}
+                        </div>
+                        <input type="text" id="reviewerName" class="review-input" placeholder="Your Name">
+                        <textarea id="reviewText" class="review-input" rows="3" placeholder="Share your experience..."></textarea>
+                        <button class="btn btn-primary" onclick="submitReview()">Submit Review</button>
+                    </div>
+                    
+                    <div id="reviewsList"></div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            loadReviews(id);
+        };
+
+        window.closeModal = () => {
+            document.getElementById('productModal').classList.remove('active');
+            currentRating = 0;
+        };
+
+        window.toggleZoom = () => {
+            document.getElementById('modalImg').classList.toggle('zoomed');
+        };
+
+        // RATING
+        window.setRating = (rating) => {
+            currentRating = rating;
+            document.querySelectorAll('#ratingStars i').forEach((star, i) => {
+                star.classList.toggle('active', i < rating);
+            });
+        };
+
+        // SUBMIT REVIEW
+        window.submitReview = async () => {
+            const name = document.getElementById('reviewerName').value;
+            const comment = document.getElementById('reviewText').value;
+            const product = products.find(p => p.id === currentProductId);
+
+            if (!name ||!comment || currentRating === 0) {
+                alert('Please fill all fields and select rating');
+                return;
+            }
+
+            await addDoc(collection(db, 'reviews'), {
+                productId: currentProductId,
+                productName: product.name,
+                customerName: name,
+                rating: currentRating,
+                comment,
+                createdAt: new Date()
+            });
+
+            alert('Review submitted! Thank you.');
+            document.getElementById('reviewerName').value = '';
+            document.getElementById('reviewText').value = '';
+            currentRating = 0;
+            document.querySelectorAll('#ratingStars i').forEach(star => star.classList.remove('active'));
+            loadReviews(currentProductId);
+        };
+
+        // LOAD REVIEWS
+        async function loadReviews(productId) {
+            const q = query(collection(db, 'reviews'), where('productId', '==', productId), orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+            const list = document.getElementById('reviewsList');
+            
+            if (snapshot.empty) {
+                list.innerHTML = '<p style="color:#64748b;text-align:center;">No reviews yet. Be the first!</p>';
+                return;
+            }
+
+            list.innerHTML = '';
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const stars = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
+                list.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-user">${data.customerName}</div>
+                        <div class="review-stars">${stars}</div>
+                        <div class="

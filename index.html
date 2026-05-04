@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trolley Shop - Pakistan's Fastest Shopping</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <!-- DESKTOP HEADER - Laptop pe ye dikhega -->
+  <header class="desktop-header">
+    <div class="container">
+      <div class="nav-wrapper">
+        <div class="logo">
+          <img src="assets/logo.png" alt="Trolley Shop">
+          <span>TROLLEY SHOP</span>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="searchInputDesktop" placeholder="Search for products, brands and more...">
+          <button onclick="searchProducts()">🔍</button>
+        </div>
+        <div class="nav-actions">
+          <button class="cart-btn" onclick="openCart()">
+            🛒 Cart <span class="cart-count" id="cartCount">0</span>
+          </button>
+          <button class="login-btn" id="loginBtn">👤 Login</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE HEADER - Mobile pe ye dikhega -->
+  <header class="mobile-header">
+    <div class="header-top">
+      <div class="logo-mini">
+        <img src="assets/logo.png" alt="Trolley Shop">
+        <span>TROLLEY SHOP</span>
+      </div>
+      <div class="header-icons">
+        <button class="icon-btn" onclick="openCart()">
+          🛒<span class="cart-badge" id="cartCountMobile">0</span>
+        </button>
+        <button class="icon-btn" id="loginBtnMobile">👤</button>
+      </div>
+    </div>
+    <div class="search-wrapper">
+      <div class="search-bar-mobile">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search Trolley Shop">
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE ICON GRID - Sirf mobile pe dikhega -->
+  <section class="icon-grid-mobile">
+    <div class="icon-item" onclick="filterCategory('electronics')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#667eea,#764ba2)">📱</div>
+      <span>Mobiles</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('fashion')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#f093fb,#f5576c)">👕</div>
+      <span>Fashion</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('home')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">🏠</div>
+      <span>Home</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('beauty')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">💄</div>
+      <span>Beauty</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('sports')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#fa709a,#fee140)">⚽</div>
+      <span>Sports</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('grocery')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#30cfd0,#330867)">🛒</div>
+      <span>Grocery</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('toys')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#a8edea,#fed6e3)">🧸</div>
+      <span>Toys</span>
+    </div>
+    <div class="icon-item" onclick="filterCategory('all')">
+      <div class="icon-box" style="background:linear-gradient(135deg,#ff9a9e,#fecfef)">🔥</div>
+      <span>All Deals</span>
+    </div>
+  </section>
+
+  <!-- DESKTOP CATEGORIES - Laptop pe ye dikhega -->
+  <nav class="categories-desktop">
+    <div class="container">
+      <button class="cat-btn active" onclick="filterCategory('all')">🔥 All Products</button>
+      <button class="cat-btn" onclick="filterCategory('electronics')">📱 Electronics</button>
+      <button class="cat-btn" onclick="filterCategory('fashion')">👕 Fashion</button>
+      <button class="cat-btn" onclick="filterCategory('home')">🏠 Home & Living</button>
+      <button class="cat-btn" onclick="filterCategory('beauty')">💄 Beauty</button>
+      <button class="cat-btn" onclick="filterCategory('sports')">⚽ Sports</button>
+    </div>
+  </nav>
+
+  <!-- HERO BANNER - Dono pe dikhega -->
+  <section class="hero">
+    <div class="container">
+      <h1>Pakistan's Fastest Online Shopping</h1>
+      <p>Cash on Delivery • 7 Days Return • Free Shipping Above Rs 2000</p>
+      <button class="cta-btn" onclick="document.getElementById('productsGrid').scrollIntoView({behavior:'smooth'})">Start Shopping →</button>
+    </div>
+  </section>
+
+  <!-- FLASH SALE - Mobile pe horizontal, Desktop pe normal -->
+  <section class="flash-sale-box">
+    <div class="container">
+      <div class="flash-header">
+        <h3>⚡ Flash Sale</h3>
+        <div class="flash-timer">Ends in <span id="timer">23:59:59</span></div>
+      </div>
+      <div class="products-horizontal" id="flashProducts"></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS GRID - Dono pe dikhega -->
+  <main class="container">
+    <div class="section-header">
+      <h2>Featured Products</h2>
+      <span onclick="filterCategory('all')">View All →</span>
+    </div>
+    <div class="products" id="productsGrid"></div>
+  </main>
+
+  <!-- BOTTOM NAV - Sirf mobile pe dikhega -->
+  <nav class="bottom-nav-mobile">
+    <button class="nav-item active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <span class="nav-icon">🏠</span>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" onclick="filterCategory('all')">
+      <span class="nav-icon">📂</span>
+      <span>Category</span>
+    </button>
+    <button class="nav-item" onclick="openCart()">
+      <span class="nav-icon">🛒</span>
+      <span>Cart</span>
+      <span class="nav-badge" id="cartCountNav">0</span>
+    </button>
+    <button class="nav-item" id="loginBtnNav">
+      <span class="nav-icon">👤</span>
+      <span>Account</span>
+    </button>
+  </nav>
+
+  <!-- FOOTER - Dono pe dikhega -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>TROLLEY SHOP</h3>
+          <p>Pakistan's trusted online shopping destination.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Customer Service</h4>
+          <a href="#">Contact Us</a>
+          <a href="#">Return Policy</a>
+          <a href="#">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Payment Methods</h4>
+          <p>💵 Cash on Delivery</p>
+          <p>🏦 Bank Transfer</p>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2025 Trolley Shop. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- MODALS -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCart()">&times;</span>
+      <h2>🛒 Your Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total">
+        <div class="total-row"><span>Subtotal:</span><span>Rs <span id="subtotalPrice">0</span></span></div>
+        <div class="total-row"><span>Delivery:</span><span id="deliveryPrice">Rs 200</span></div>
+        <div class="total-row grand"><span>Total:</span><span>Rs <span id="totalPrice">0</span></span></div>
+      </div>
+      <div class="checkout-form">
+        <h3>Cash on Delivery</h3>
+        <input type="text" id="customerName" placeholder="Full Name *" required>
+        <input type="tel" id="customerPhone" placeholder="03XX-XXXXXXX *" required>
+        <input type="text" id="customerCity" placeholder="City *" required>
+        <textarea id="customerAddress" placeholder="Complete Address *" required rows="2"></textarea>
+        <button class="checkout-btn" onclick="placeOrder()">Confirm Order - COD</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-content small">
+      <span class="close" onclick="closeLogin()">&times;</span>
+      <h2>Welcome to Trolley Shop</h2>
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button onclick="loginUser()" class="login-main-btn">Login</button>
+      <button onclick="signupUser()" class="secondary">Create Account</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

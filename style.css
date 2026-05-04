@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --primary:#667eea;
+  --secondary:#764ba2;
+  --danger:#ff4757;
+  --success:#00b894;
+  --bg:#f5f5f5;
+  --white:#fff;
+  --text:#333;
+  --text-light:#666;
+  --border:#e0e0e0;
+}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text)}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* DESKTOP HEADER - Laptop pe dikhega */
+.desktop-header{background:linear-gradient(135deg,var(--primary),var(--secondary));padding:15px 0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.nav-wrapper{display:flex;align-items:center;gap:30px}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:800;color:var(--white);min-width:200px}
+.logo img{height:45px;border-radius:8px}
+.search-bar{flex:1;display:flex;background:var(--white);border-radius:50px;overflow:hidden;max-width:600px}
+.search-bar input{flex:1;padding:12px 20px;border:none;outline:none;font-size:14px}
+.search-bar button{padding:0 25px;background:var(--danger);border:none;color:var(--white);cursor:pointer;font-size:18px}
+.nav-actions{display:flex;gap:15px}
+.cart-btn,.login-btn{padding:10px 20px;background:rgba(255,255,255,0.2);border:2px solid var(--white);border-radius:25px;color:var(--white);cursor:pointer;font-weight:600;transition:0.3s}
+.cart-btn:hover,.login-btn:hover{background:var(--white);color:var(--primary)}
+.cart-count{background:var(--danger);color:var(--white);border-radius:50%;padding:2px 6px;font-size:12px;margin-left:5px}
+
+/* MOBILE HEADER - Mobile pe dikhega */
+.mobile-header{display:none;background:linear-gradient(135deg,var(--primary),var(--secondary));padding:12px 15px 15px;position:sticky;top:0;z-index:1000}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.logo-mini{display:flex;align-items:center;gap:8px}
+.logo-mini img{height:32px;border-radius:8px}
+.logo-mini span{font-size:18px;font-weight:800;color:var(--white)}
+.header-icons{display:flex;gap:15px}
+.icon-btn{background:rgba(255,255,255,0.2);border:none;width:38px;height:38px;border-radius:50%;color:var(--white);font-size:18px;position:relative;cursor:pointer}
+.cart-badge{position:absolute;top:-5px;right:-5px;background:var(--danger);color:var(--white);border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.search-wrapper{width:100%}
+.search-bar-mobile{display:flex;align-items:center;background:var(--white);border-radius:25px;padding:10px 15px;gap:10px}
+.search-bar-mobile input{flex:1;border:none;outline:none;font-size:14px;background:transparent}
+.search-icon{font-size:18px;color:var(--text-light)}
+
+/* MOBILE ICON GRID - Sirf mobile pe */
+.icon-grid-mobile{display:none;grid-template-columns:repeat(4,1fr);gap:15px;padding:20px 15px;background:var(--white)}
+.icon-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:0.2s}
+.icon-item:active{transform:scale(0.95)}
+.icon-box{width:55px;height:55px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.icon-item span{font-size:11px;color:var(--text);font-weight:500;text-align:center}
+
+/* DESKTOP CATEGORIES - Laptop pe dikhega */
+.categories-desktop{background:var(--white);padding:15px 0;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
+.categories-desktop .container{display:flex;gap:10px;overflow-x:auto}
+.cat-btn{padding:10px 20px;background:transparent;border:2px solid var(--border);border-radius:25px;cursor:pointer;font-weight:600;white-space:nowrap;transition:0.3s}
+.cat-btn:hover,.cat-btn.active{background:var(--primary);color:var(--white);border-color:var(--primary)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:var(--white);text-align:center;padding:60px 20px}
+.hero h1{font-size:48px;margin-bottom:15px}
+.hero p{font-size:18px;margin-bottom:30px;opacity:0.9}
+.cta-btn{padding:15px 40px;background:var(--white);color:var(--primary);border:none;border-radius:50px;font-size:16px;font-weight:700;cursor:pointer;transition:0.3s}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,0.2)}
+
+/* FLASH SALE */
+.flash-sale-box{margin:20px 0;background:var(--white);border-radius:15px;padding:20px}
+.flash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.flash-header h3{font-size:20px;font-weight:700;color:var(--danger)}
+.flash-timer{background:var(--danger);color:var(--white);padding:6px 15px;border-radius:20px;font-size:14px;font-weight:600}
+.products-horizontal{display:flex;gap:15px;overflow-x:auto;scrollbar-width:none;padding-bottom:5px}
+.products-horizontal::-webkit-scrollbar{display:none}
+.product-h-card{min-width:140px;background:#f8f8f8;border-radius:12px;overflow:hidden;border:1px solid var(--border);cursor:pointer}
+.product-h-img{height:140px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:50px;position:relative}
+.save-badge{position:absolute;top:8px;left:8px;background:var(--danger);color:var(--white);padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.product-h-info{padding:10px}
+.product-h-price{color:var(--danger);font-weight:700;font-size:16px}
+.product-h-old{color:var(--text-light);text-decoration:line-through;font-size:13px}
+.product-h-sold{background:var(--danger);color:var(--white);font-size:10px;padding:3px 8px;border-radius:10px;margin-top:5px;display:inline-block}
+
+/* SECTION HEADER */
+.section-header{display:flex;justify-content:space-between;align-items:center;margin:40px 0 20px}
+.section-header h2{font-size:28px}
+.section-header span{color:var(--primary);font-weight:600;cursor:pointer}
+
+/* PRODUCTS GRID */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:25px;padding-bottom:60px}
+.product-card{background:var(--white);border-radius:15px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.08);transition:0.3s;cursor:pointer}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.15)}
+.product-img{height:250px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:80px;position:relative}
+.product-badge{position:absolute;top:10px;left:10px;background:var(--danger);color:var(--white);padding:5px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.product-info{padding:20px}
+.product-name{font-size:16px;font-weight:600;margin-bottom:10px;height:48px;overflow:hidden}
+.product-price{color:var(--danger);font-weight:700;font-size:20px;margin-bottom:5px}
+.product-price s{color:var(--text-light);font-size:14px;margin-left:8px;font-weight:400}
+.product-rating{color:#ffa500;font-size:14px;margin-bottom:15px}
+.add-btn{width:100%;padding:12px;background:var(--primary);border:none;border-radius:10px;color:var(--white);font-weight:600;cursor:pointer;transition:0.3s}
+.add-btn:hover{background:var(--secondary)}
+
+/* BOTTOM NAV MOBILE - Sirf mobile pe */
+.bottom-nav-mobile{display:none;position:fixed;bottom:0;left:0;width:100%;background:var(--white);display:flex;justify-content:space-around;padding:8px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.1);z-index:999}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;padding:5px 15px;position:relative;color:var(--text-light);transition:0.2s}
+.nav-item.active{color:var(--primary)}
+.nav-icon{font-size:22px}
+.nav-item span:last-child{font-size:10px;font-weight:500}
+.nav-badge{position:absolute;top:0;right:10px;background:var(--danger);color:var(--white);border-radius:50%;width:16px;height:16px;font-size:9px;display:flex;align-items:center;justify-content:center}
+
+/* FOOTER */
+footer{background:#1a1a1a;color:var(--white);padding:50px 0 20px;margin-top:60px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:30px}
+.footer-col h3,.footer-col h4{margin-bottom:15px}
+.footer-col a{display:block;color:#aaa;text-decoration:none;margin:8px 0;transition:0.3s}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid #333;color:#aaa}
+
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000}
+.modal.active{display:flex;align-items:center;justify-content:center}
+.modal-content{background:var(--white);padding:30px;border-radius:20px;max-width:600px;width:90%;max-height:90vh;overflow-y:auto}
+.modal-content.small{max-width:400px}
+.close{float:right;font-size:32px;cursor:pointer;color:var(--text-light)}
+
+/* CART */
+.cart-item{display:flex;gap:15px;padding:15px 0;border-bottom:1px solid var(--border)}
+.cart-item-info{flex:1}
+.qty-control{display:flex;gap:10px;align-items:center;margin-top:10px}
+.qty-btn{width:30px;height:30px;background:var(--primary);border:none;border-radius:8px;color:var(--white);cursor:pointer;font-weight:700}
+.cart-total{margin:20px 0;padding:20px;background:#f8f8f8;border-radius:12px}
+.total-row{display:flex;justify-content:space-between;margin:10px 0;font-size:16px}
+.total-row.grand{font-size:20px;font-weight:700;color:var(--danger);padding-top:10px;border-top:2px solid var(--border)}
+.checkout-form input,.checkout-form textarea{width:100%;padding:12px;margin:8px 0;background:#f8f8f8;border:1px solid var(--border);border-radius:10px;font-size:14px}
+.checkout-btn{width:100%;padding:15px;background:var(--success);border:none;border-radius:12px;color:var(--white);font-size:16px;font-weight:700;cursor:pointer;margin-top:10px}
+
+/* LOGIN */
+.login-main-btn{width:100%;padding:12px;background:var(--primary);border:none;border-radius:10px;color:var(--white);font-weight:700;cursor:pointer;margin:8px 0}
+.secondary{background:var(--border)!important;color:var(--text)!important}
+
+/* RESPONSIVE - MOBILE PE CHANGE HO JAYEGA */
+@media(max-width:768px){
+  body{padding-bottom:70px}
+  .desktop-header{display:none}
+  .mobile-header{display:block}
+  .categories-desktop{display:none}
+  .icon-grid-mobile{display:grid}
+  .bottom-nav-mobile{display:flex}
+  .hero h1{font-size:28px}
+  .hero p{font-size:14px}
+  .products{grid-template-columns:repeat(2,1fr);gap:10px}
+  .product-img{height:160px;font-size:60px}
+  .product-info{padding:10px}
+  .product-name{font-size:13px;height:36px}
+  .product-price{font-size:16px}
+  .flash-sale-box{margin:15px;border-radius:15px;padding:15px}
+  .flash-header h3{font-size:16px}
+  .product-h-card{min-width:110px}
+  .product-h-img{height:110px;font-size:40px}
+  .container{padding:0 15px}
+  footer{margin-bottom:70px}
+  .modal.active{align-items:flex-end}
+  .modal-content{border-radius:20px 20px 0 0;max-height:90vh}
+}

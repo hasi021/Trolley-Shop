@@ -694,4 +694,285 @@
     <div class="modal" id="cartModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h
+                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="modal-body" id="cartBody"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-circle"></i> Customer Login</h2>
+                <button class="close-btn" onclick="closeLogin()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="loginName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="03XX XXXXXXX">
+                </div>
+                <button class="btn-primary" onclick="loginUser()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            {id: 1, name: "Premium Wireless Headphones", price: 4999, category: "electronics", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600", description: "Active noise cancellation with 40h battery", badge: "HOT"},
+            {id: 2, name: "Smart Watch Pro Max", price: 8999, category: "electronics", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600", description: "AMOLED display, health tracking", badge: "NEW"},
+            {id: 3, name: "Genuine Leather Wallet", price: 2499, category: "accessories", image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600", description: "Premium leather with RFID protection"},
+            {id: 4, name: "Bluetooth Speaker Pro", price: 3499, category: "electronics", image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600", description: "360° sound, waterproof IPX7", badge: "SALE"},
+            {id: 5, name: "Designer Sunglasses", price: 1999, category: "fashion", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600", description: "UV400 protection, polarized lenses"},
+            {id: 6, name: "Laptop Backpack", price: 3999, category: "accessories", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600", description: "Anti-theft design with USB port"},
+            {id: 7, name: "Mechanical Keyboard", price: 6999, category: "electronics", image: "https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?w=600", description: "RGB backlit, blue switches", badge: "NEW"},
+            {id: 8, name: "Running Shoes Pro", price: 5499, category: "fashion", image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600", description: "Lightweight with air cushion"}
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('user')) || null;
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        function init() {
+            loadProducts();
+            updateCartCount();
+            updateUserDisplay();
+        }
+
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            let filtered = products;
+
+            if (currentCategory!== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(p =>
+                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.description.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-search"></i><p>No products found</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card">
+                    <div class="product-img-wrap">
+                        <img src="${product.image}" alt="${product.name}" class="product-img">
+                        ${product.badge? `<div class="product-badge">${product.badge}</div>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-desc">${product.description}</div>
+                        <div class="product-footer">
+                            <div class="product-price">Rs. ${product.price.toLocaleString()}</div>
+                            <button class="add-cart-btn" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchProducts() {
+            searchTerm = document.getElementById('searchInput').value;
+            loadProducts();
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadProducts();
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({...product, qty: 1});
+            }
+
+            saveCart();
+            updateCartCount();
+            showToast('Added to cart!');
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            const body = document.getElementById('cartBody');
+
+            if (cart.length === 0) {
+                body.innerHTML = '<div class="empty-state"><i class="fas fa-shopping-cart"></i><p>Your cart is empty</p><p style="font-size:14px;margin-top:10px;">Add some products to get started!</p></div>';
+            } else {
+                const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                body.innerHTML = `
+                    ${cart.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">Rs. ${item.price.toLocaleString()}</div>
+                                <div class="qty-control">
+                                    <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                                    <span style="padding:0 12px;font-weight:700;">${item.qty}</span>
+                                    <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                    <div class="cart-total">Total: Rs. ${total.toLocaleString()}</div>
+                    <button class="checkout-btn" onclick="checkout()">
+                        <i class="fab fa-whatsapp"></i> Order on WhatsApp
+                    </button>
+                `;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function updateQty(id, change) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += change;
+                if (item.qty <= 0) {
+                    removeFromCart(id);
+                } else {
+                    saveCart();
+                    updateCartCount();
+                    openCart();
+                }
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id!== id);
+            saveCart();
+            updateCartCount();
+            openCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            if (!currentUser) {
+                closeCart();
+                openLogin();
+                showToast('Please login first!');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let message = `*New Order from Trolley Shop*%0A%0A`;
+            message += `*Customer:* ${currentUser.name}%0A`;
+            message += `*Phone:* ${currentUser.phone}%0A%0A`;
+            message += `*Order Details:*%0A`;
+
+            cart.forEach(item => {
+                message += `• ${item.name}%0A Qty: ${item.qty} x Rs. ${item.price.toLocaleString()} = Rs. ${(item.price * item.qty).toLocaleString()}%0A%0A`;
+            });
+
+            message += `*Total: Rs. ${total.toLocaleString()}*%0A%0APlease confirm my order.`;
+
+            const whatsappNumber = "923001234567"; // <-- APNA NUMBER YAHAN DALNA
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+
+            cart = [];
+            saveCart();
+            updateCartCount();
+            closeCart();
+            showToast('Order sent to WhatsApp!');
+        }
+
+        function openLogin() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function loginUser() {
+            const name = document.getElementById('loginName').value.trim();
+            const phone = document.getElementById('loginPhone').value.trim();
+
+            if (!name ||!phone) {
+                showToast('Please fill all fields!');
+                return;
+            }
+
+            currentUser = {name, phone};
+            localStorage.setItem('user', JSON.stringify(currentUser));
+            updateUserDisplay();
+            closeLogin();
+            showToast(`Welcome, ${name}!`);
+        }
+
+        function updateUserDisplay() {
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name.split(' ')[0];
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 9999;
+                animation: slideInRight 0.3s ease;
+                box-shadow: 0 10px 40px rgba(99,102,241,0.5);
+            `;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCart();
+        });
+
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) closeLogin();
+        });
+
+        init();
+    </script>
+</body>
+</html>

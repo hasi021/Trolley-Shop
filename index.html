@@ -3,312 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trolley Shop - Next Gen Shopping 2050</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/8X3Qy0J/trolley-logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Trolley Shop 2050 - Next-Gen Shopping</title>
+    
+    <!-- FAVICON - TAB MEIN LOGO -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/6n0J4Y7/trolley-logo.png">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-        *{margin:0;padding:0;box-sizing:border-box}
-        :root{--primary:#6366f1;--secondary:#8b5cf6;--accent:#ec4899;--dark:#0a0e27;--darker:#050814;--light:#f8fafc;--gray:#94a3b8;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--gradient-2:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);--gradient-3:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
-        body{font-family:'Outfit',sans-serif;background:var(--darker);color:var(--light);overflow-x:hidden}
-        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(99,102,241,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(139,92,246,0.15) 0%,transparent 50%),radial-gradient(circle at 40% 20%,rgba(236,72,153,0.1) 0%,transparent 50%);pointer-events:none;z-index:0}
-        .container{max-width:1400px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
-        header{background:rgba(10,14,39,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:20px 0;position:sticky;top:0;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-        .header-content{display:flex;justify-content:space-between;align-items:center;gap:30px}
-        .logo{display:flex;align-items:center;gap:12px;font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;transition:transform 0.3s ease}
-        .logo:hover{transform:scale(1.05)}
-        .logo-img{width:50px;height:50px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(99,102,241,0.8),0 0 60px rgba(99,102,241,0.4);animation:pulse 2s ease-in-out infinite;overflow:hidden;padding:5px}
-        @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(99,102,241,0.8),0 0 60px rgba(99,102,241,0.4);transform:scale(1)}50%{box-shadow:0 0 50px rgba(99,102,241,1),0 0 100px rgba(99,102,241,0.6);transform:scale(1.05)}}
-        .logo-img img{width:100%;height:100%;object-fit:contain}
-        .search-bar{flex:1;max-width:500px;position:relative}
-        .search-bar input{width:100%;padding:14px 50px 14px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:var(--light);font-size:15px;transition:all 0.3s ease}
-        .search-bar input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,0.1)}
-        .search-bar i{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--gray)}
-        .header-actions{display:flex;gap:15px;align-items:center}
-        .user-info{display:flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s ease}
-        .user-info:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px)}
-        .cart-icon{position:relative;padding:12px 18px;background:var(--gradient);border-radius:12px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
-        .cart-icon:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(99,102,241,0.5)}
-        .cart-count{position:absolute;top:-8px;right:-8px;background:var(--danger);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid var(--darker)}
-        .top-nav{position:fixed;top:80px;left:0;right:0;background:rgba(10,14,39,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);padding:12px 0;z-index:999;transform:translateY(-100%);transition:transform 0.3s ease}
-        .top-nav.active{transform:translateY(0)}
-        .nav-container{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-        .nav-link{color:var(--light);text-decoration:none;font-weight:600;font-size:14px;padding:8px 16px;border-radius:8px;transition:all 0.3s ease;cursor:pointer}
-        .nav-link:hover,.nav-link.active{background:var(--gradient);color:white}
-        .hero{padding:80px 0 60px;text-align:center}
-        .hero h1{font-size:64px;font-weight:900;margin-bottom:20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradientShift 5s ease infinite}
-        @keyframes gradientShift{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(20deg)}}
-        .hero p{font-size:20px;color:var(--gray);margin-bottom:40px}
-        .categories{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-bottom:50px}
-        .category-btn{padding:12px 28px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;color:var(--light);font-weight:600;cursor:pointer;transition:all 0.3s ease}
-        .category-btn:hover,.category-btn.active{background:var(--gradient);border-color:transparent;transform:translateY(-3px);box-shadow:0 10px 30px rgba(99,102,241,0.4)}
-        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:30px;margin-bottom:60px}
-        .product-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:24px;overflow:hidden;transition:all 0.4s ease;cursor:pointer;position:relative}
-        .product-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:var(--gradient);opacity:0;transition:opacity 0.4s ease;z-index:0}
-        .product-card:hover{transform:translateY(-10px);border-color:rgba(99,102,241,0.5);box-shadow:0 20px 60px rgba(99,102,241,0.3)}
-        .product-card:hover::before{opacity:0.05}
-        .product-img-wrap{position:relative;overflow:hidden;height:280px}
-        .product-img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
-        .product-card:hover .product-img{transform:scale(1.1)}
-        .product-badge{position:absolute;top:15px;right:15px;padding:6px 14px;background:var(--gradient-2);border-radius:20px;font-size:12px;font-weight:700;color:white;z-index:2}
-        .product-info{padding:24px;position:relative;z-index:1}
-        .product-name{font-size:20px;font-weight:700;margin-bottom:8px}
-        .product-desc{color:var(--gray);font-size:14px;margin-bottom:16px;line-height:1.6}
-        .product-footer{display:flex;justify-content:space-between;align-items:center}
-        .product-price{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .add-cart-btn{padding:12px 24px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
-        .add-cart-btn:hover{transform:scale(1.05);box-shadow:0 12px 32px rgba(99,102,241,0.5)}
-        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);z-index:2000;align-items:center;justify-content:center;padding:20px}
-        .modal.active{display:flex}
-        .modal-content{background:var(--dark);border:1px solid rgba(255,255,255,0.1);border-radius:24px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
-        .modal-header{padding:24px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--dark);z-index:10}
-        .modal-header h2{font-size:24px;font-weight:800}
-        .close-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--light);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:20px;transition:all 0.3s ease}
-        .close-btn:hover{background:var(--danger);border-color:var(--danger);transform:rotate(90deg)}
-        .modal-body{padding:24px}
-        .cart-item{display:flex;gap:16px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;margin-bottom:16px}
-        .cart-item img{width:80px;height:80px;object-fit:cover;border-radius:12px;flex-shrink:0}
-        .cart-item-info{flex:1;min-width:0}
-        .cart-item-name{font-weight:700;margin-bottom:6px;font-size:16px}
-        .cart-item-price{color:var(--primary);font-weight:800;font-size:18px}
-        .qty-control{display:flex;gap:12px;align-items:center;margin-top:10px}
-        .qty-btn{width:32px;height:32px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--light);cursor:pointer;transition:all 0.3s ease;flex-shrink:0}
-        .qty-btn:hover{background:var(--primary);border-color:var(--primary)}
-        .remove-btn{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--danger);padding:8px 12px;border-radius:8px;cursor:pointer;transition:all 0.3s ease;flex-shrink:0}
-        .remove-btn:hover{background:var(--danger);color:white}
-        .cart-total{padding:20px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:16px;margin:20px 0;text-align:center}
-        .cart-total h3{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .checkout-btn{width:100%;padding:16px;background:var(--gradient);border:none;border-radius:16px;color:white;font-size:18px;font-weight:800;cursor:pointer;transition:all 0.3s ease;box-shadow:0 10px 30px rgba(99,102,241,0.4)}
-        .checkout-btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(99,102,241,0.6)}
-        .form-group{margin-bottom:20px}
-        .form-group label{display:block;margin-bottom:8px;font-weight:600;color:var(--gray)}
-        .form-group input{width:100%;padding:14px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:var(--light);font-size:15px;transition:all 0.3s ease}
-        .form-group input:focus{outline:none;background:rgba(255,255,255,0.08);border-color:var(--primary);box-shadow:0 0 0 4px rgba(99,102,241,0.1)}
-        .btn-primary{width:100%;padding:14px;background:var(--gradient);border:none;border-radius:12px;color:white;font-weight:700;cursor:pointer;transition:all 0.3s ease}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(99,102,241,0.4)}
-        .empty-state{text-align:center;padding:60px 20px;color:var(--gray)}
-        .empty-state i{font-size:64px;margin-bottom:20px;opacity:0.3}
-        .home-fab{position:fixed;bottom:30px;left:30px;width:56px;height:56px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;cursor:pointer;box-shadow:0 10px 40px rgba(99,102,241,0.5);z-index:998;opacity:0;transform:scale(0);transition:all 0.3s ease}
-        .home-fab.show{opacity:1;transform:scale(1)}
-        .home-fab:hover{transform:scale(1.1);box-shadow:0 15px 50px rgba(99,102,241,0.7)}
-        .footer{background:rgba(0,0,0,0.3);padding:50px 20px 30px;margin-top:80px;border-top:1px solid rgba(255,255,255,0.1)}
-        .footer-content{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:30px}
-        .footer-col h3{font-size:18px;margin-bottom:15px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .footer-col p,.footer-col a{color:var(--gray);font-size:14px;line-height:1.8;text-decoration:none;display:block;margin-bottom:8px;cursor:pointer}
-        .footer-col a:hover{color:var(--primary)}
-        .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);color:var(--gray);font-size:13px}
-        @media(max-width:768px){.hero h1{font-size:42px}.header-content{flex-wrap:wrap}.search-bar{order:3;flex-basis:100%}.products-grid{grid-template-columns:1fr}.nav-container{gap:8px;flex-wrap:wrap;padding:0 10px}.nav-link{font-size:12px;padding:6px 12px}.home-fab{left:20px;bottom:20px;width:48px;height:48px}.cart-item{align-items:flex-start}.cart-item-info{width:100%}.remove-btn{margin-top:8px}}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: #0a0a1a; color: white; }
+        
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #1a1a3a, #0a0a1a);
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* CIRCLE WALA LOGO - HOVER PE GHOOMEGA */
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .logo-circle:hover {
+            transform: rotate(360deg);
+        }
+        
+        .logo-circle img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .brand-name {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .search-box {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #333;
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            width: 300px;
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 100px 5%;
+            background: radial-gradient(circle at center, #1a1a3a 0%, #0a0a1a 100%);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo" onclick="scrollToHome()">
-                    <div class="logo-img">
-                        <img src="https://i.ibb.co/8X3Qy0J/trolley-logo.png" alt="Trolley Shop Logo">
-                    </div>
-                    <span>Trolley Shop</span>
-                </div>
-                <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="header-actions">
-                    <div class="user-info" onclick="openLogin()">
-                        <i class="fas fa-user-circle"></i>
-                        <span id="userName">Login</span>
-                    </div>
-                    <div class="cart-icon" onclick="openCart()">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="cart-count" id="cartCount">0</span>
-                    </div>
-                </div>
+    <!-- HEADER WITH SPINNING LOGO -->
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo-circle">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 18C5.9 18 5 18.9 5 20C5 21.1 5.9 22 7 22C8.1 22 9 21.1 9 20C9 18.9 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5H5.21L4.27 3H1ZM17 18C15.9 18 15 18.9 15 20C15 21.1 15.9 22 17 22C18.1 22 19 21.1 19 20C19 18.9 18.1 18 17 18Z" fill="white"/>
+                </svg>
             </div>
+            <div class="brand-name">Trolley Shop</div>
         </div>
+        
+        <input type="text" class="search-box" placeholder="Search products...">
     </header>
 
-    <nav class="top-nav" id="topNav">
-        <div class="nav-container">
-            <a class="nav-link active" onclick="scrollToHome()"><i class="fas fa-home"></i> Home</a>
-            <a class="nav-link" onclick="scrollToProducts()"><i class="fas fa-box"></i> Products</a>
-            <a class="nav-link" onclick="filterCategory('mobile')"><i class="fas fa-mobile-alt"></i> Mobile</a>
-            <a class="nav-link" onclick="filterCategory('electronics')"><i class="fas fa-laptop"></i> Electronics</a>
-            <a class="nav-link" onclick="filterCategory('gents')"><i class="fas fa-male"></i> Gents</a>
-            <a class="nav-link" onclick="filterCategory('girls')"><i class="fas fa-female"></i> Girls</a>
-            <a class="nav-link" onclick="filterCategory('kids')"><i class="fas fa-child"></i> Kids</a>
-            <a class="nav-link" onclick="openCart()"><i class="fas fa-shopping-cart"></i> Cart</a>
-        </div>
-    </nav>
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Next-Gen Shopping Experience</h1>
+        <p>Welcome to Trolley Shop 2050 - All Features Complete</p>
+    </section>
 
-    <div class="home-fab" id="homeFab" onclick="scrollToHome()"><i class="fas fa-arrow-up"></i></div>
-
-    <div class="hero">
-        <div class="container">
-            <h1>Next-Gen Shopping Experience</h1>
-            <p>Discover premium products with futuristic design and seamless shopping</p>
-            <div class="categories">
-                <button class="category-btn active" onclick="filterCategory('all')">All Products</button>
-                <button class="category-btn" onclick="filterCategory('mobile')">Mobile</button>
-                <button class="category-btn" onclick="filterCategory('electronics')">Electronics</button>
-                <button class="category-btn" onclick="filterCategory('gents')">Gents</button>
-                <button class="category-btn" onclick="filterCategory('girls')">Girls</button>
-                <button class="category-btn" onclick="filterCategory('kids')">Kids</button>
-                <button class="category-btn" onclick="filterCategory('fashion')">Fashion</button>
-                <button class="category-btn" onclick="filterCategory('accessories')">Accessories</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="products-grid" id="productsGrid"></div>
-    </div>
-
-    <footer class="footer" id="footer">
-        <div class="footer-content">
-            <div class="footer-col">
-                <h3>Trolley Shop</h3>
-                <p>Pakistan's #1 Next-Gen Shopping Platform. Premium products at unbeatable prices.</p>
-                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
-            </div>
-            <div class="footer-col">
-                <h3>Quick Links</h3>
-                <a onclick="scrollToHome()">Home</a>
-                <a onclick="scrollToProducts()">All Products</a>
-                <a onclick="openCart()">My Cart</a>
-                <a onclick="openLogin()">Login</a>
-            </div>
-            <div class="footer-col">
-                <h3>Categories</h3>
-                <a onclick="filterCategory('mobile')">Mobile</a>
-                <a onclick="filterCategory('electronics')">Electronics</a>
-                <a onclick="filterCategory('gents')">Gents</a>
-                <a onclick="filterCategory('girls')">Girls</a>
-                <a onclick="filterCategory('kids')">Kids</a>
-            </div>
-            <div class="footer-col">
-                <h3>Contact Us</h3>
-                <p><i class="fab fa-whatsapp"></i> +92 300 1234567</p>
-                <p><i class="fas fa-envelope"></i> support@trolleyshop.com</p>
-                <p><i class="fas fa-clock"></i> 24/7 Support</p>
-            </div>
-        <div class="footer-bottom">© 2026 Trolley Shop. All Rights Reserved. | Made with ❤️ by HASSAN BHAI</div>
-    </footer>
-
-    <div class="modal" id="cartModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
-                <button class="close-btn" onclick="closeCart()">&times;</button>
-            </div>
-            <div class="modal-body" id="cartBody"></div>
-        </div>
-    </div>
-
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-user-circle"></i> Customer Login</h2>
-                <button class="close-btn" onclick="closeLogin()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="loginName" placeholder="Enter your name">
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="loginPhone" placeholder="03XX XXXXXXX">
-                </div>
-                <button class="btn-primary" onclick="loginUser()"><i class="fas fa-sign-in-alt"></i> Login</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const products=[
-            {id:1,name:"Samsung Galaxy S25 Ultra",price:299999,category:"mobile",image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600",description:"200MP Camera, 5000mAh Battery, Snapdragon 8 Gen 4",badge:"NEW"},
-            {id:2,name:"iPhone 16 Pro Max",price:399999,category:"mobile",image:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600",description:"A18 Pro Chip, Titanium Body, 48MP Camera",badge:"HOT"},
-            {id:3,name:"OnePlus 13 Pro",price:249999,category:"mobile",image:"https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=600",description:"120Hz AMOLED, 100W Charging"},
-            {id:4,name:"Xiaomi 15 Ultra",price:199999,category:"mobile",image:"https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600",description:"Leica Camera, 120W Fast Charging"},
-            {id:5,name:"Vivo X100 Pro",price:179999,category:"mobile",image:"https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=600",description:"Zeiss Camera, 100W Charging"},
-            {id:6,name:"Premium Wireless Headphones",price:4999,category:"electronics",image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",description:"Active noise cancellation with 40h battery",badge:"HOT"},
-            {id:7,name:"Smart Watch Pro Max",price:8999,category:"electronics",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",description:"AMOLED display, health tracking",badge:"NEW"},
-            {id:8,name:"Bluetooth Speaker Pro",price:3499,category:"electronics",image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600",description:"360° sound, waterproof IPX7",badge:"SALE"},
-            {id:9,name:"Mechanical Keyboard RGB",price:6999,category:"electronics",image:"https://images.unsplash.com/photo-1589578228447-e1a4e481c6c8?w=600",description:"RGB backlit, Blue switches"},
-            {id:10,name:"Gaming Mouse Pro",price:2999,category:"electronics",image:"https://images.unsplash.com/photo-1527814050087-3793815479db?w=600",description:"16000 DPI, RGB Lighting"},
-            {id:11,name:"Men's Formal Shirt",price:3499,category:"gents",image:"https://images.unsplash.com/photo-1598032895397-b4b8a7e9e3e0?w=600",description:"Premium Cotton, Slim Fit, Blue"},
-            {id:12,name:"Men's Leather Shoes",price:7999,category:"gents",image:"https://images.unsplash.com/photo-1614253429340-98120bd6d753?w=600",description:"Genuine Leather, Handmade, Brown"},
-            {id:13,name:"Men's Winter Jacket",price:8999,category:"gents",image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600",description:"Waterproof, Warm, Black"},
-            {id:14,name:"Men's Watch Luxury",price:12999,category:"gents",image:"https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600",description:"Stainless Steel, Water Resistant"},
-            {id:15,name:"Men's Jeans Denim",price:4499,category:"gents",image:"https://images.unsplash.com/photo-1542272604-787c3835535d?w=600",description:"Slim Fit, Stretchable, Blue"},
-            {id:16,name:"Women's Handbag",price:5999,category:"girls",image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600",description:"Designer Leather Bag, Pink",badge:"SALE"},
-            {id:17,name:"Girls Fashion Dress",price:4499,category:"girls",image:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600",description:"Premium Fabric, Party Wear, Red"},
-            {id:18,name:"Girls High Heels",price:5499,category:"girls",image:"https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600",description:"Stylish, Comfortable, Gold"},
-            {id:19,name:"Girls Makeup Kit",price:2999,category:"girls",image:"https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600",description:"Complete Makeup Set, Premium Quality"},
-            {id:20,name:"Girls Jewelry Set",price:3999,category:"girls",image:"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600",description:"Gold Plated, Necklace + Earrings"},
-            {id:21,name:"Kids Toys Set",price:2499,category:"kids",image:"https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600",description:"Educational Toys for Kids 3+, Colorful"},
-            {id:22,name:"Kids School Bag",price:1999,category:"kids",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",description:"Waterproof, Lightweight, Cartoon Design"},
-            {id:23,name:"Kids Winter Clothes Set",price:3499,category:"kids",image:"https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600",description:"Warm Sweater + Pants, 2-5 Years"},
-            {id:24,name:"Kids Bicycle",price:8999,category:"kids",image:"https://images.unsplash.com/photo-1502744688674-c619d1586c9e?w=600",description:"Safe Design, Training Wheels, Age 4-8"},
-            {id:25,name:"Kids Smart Watch",price:3999,category:"kids",image:"https://images.unsplash.com/photo-1558126319-c9feecbf57ee?w=600",description:"GPS Tracker, Video Call, Age 5-12"},
-            {id:26,name:"Designer Sunglasses",price:1999,category:"fashion",image:"https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600",description:"UV400 protection, polarized lenses"},
-            {id:27,name:"Running Shoes Pro",price:5499,category:"fashion",image:"https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=600",description:"Lightweight with air cushion"},
-            {id:28,name:"Genuine Leather Wallet",price:2499,category:"accessories",image:"https://images.unsplash.com/photo-1627123424574-724758594e93?w=600",description:"Premium leather with RFID protection"},
-            {id:29,name:"Laptop Backpack",price:3999,category:"accessories",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",description:"Anti-theft design with USB port"}
-        ];
-        let cart=JSON.parse(localStorage.getItem('cart'))||[];let currentUser=JSON.parse(localStorage.getItem('user'))||null;let currentCategory='all';let searchTerm='';
-        function init(){loadProducts();updateCartCount();updateUserDisplay()}
-        function loadProducts(){const grid=document.getElementById('productsGrid');let filtered=products;if(currentCategory!=='all'){filtered=filtered.filter(p=>p.category===currentCategory)}if(searchTerm){filtered=filtered.filter(p=>p.name.toLowerCase().includes(searchTerm.toLowerCase())||p.description.toLowerCase().includes(searchTerm.toLowerCase())||p.category.toLowerCase().includes(searchTerm.toLowerCase()))}if(filtered.length===0){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-search"></i><p>No products found</p></div>';return}grid.innerHTML=filtered.map(product=>`<div class="product-card"><div class="product-img-wrap"><img src="${product.image}" alt="${product.name}" class="product-img">${product.badge?`<div class="product-badge">${product.badge}</div>`:''}</div><div class="product-info"><div class="product-name">${product.name}</div><div class="product-desc">${product.description}</div><div class="product-footer"><div class="product-price">Rs. ${product.price.toLocaleString()}</div><button class="add-cart-btn" onclick="addToCart(${product.id})"><i class="fas fa-cart-plus"></i> Add</button></div></div></div>`).join('')}
-        function searchProducts(){searchTerm=document.getElementById('searchInput').value;loadProducts()}
-        function filterCategory(cat){currentCategory=cat;document.querySelectorAll('.category-btn').forEach(btn=>btn.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('.nav-link').forEach(link=>link.classList.remove('active'));loadProducts();scrollToProducts()}
-        function addToCart(id){const product=products.find(p=>p.id===id);const existing=cart.find(item=>item.id===id);if(existing){existing.qty++}else{cart.push({...product,qty:1})}saveCart();updateCartCount();showToast('Added to cart!')}
-        function updateCartCount(){const count=cart.reduce((sum,item)=>sum+item.qty,0);document.getElementById('cartCount').textContent=count}
-        function saveCart(){localStorage.setItem('cart',JSON.stringify(cart))}
-        function openCart(){const modal=document.getElementById('cartModal');const body=document.getElementById('cartBody');if(cart.length===0){body.innerHTML='<div class="empty-state"><i class="fas fa-shopping-cart"></i><p>Your cart is empty</p><p style="font-size:14px;margin-top:10px;">Add some products to get started!</p></div>'}else{const total=cart.reduce((sum,item)=>sum+(item.price*item.qty),0);body.innerHTML=`${cart.map(item=>`<div class="cart-item"><img src="${item.image}" alt="${item.name}"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">Rs. ${item.price.toLocaleString()}</div><div class="qty-control"><button class="qty-btn" onclick="updateQty(${item.id},-1)">-</button><span style="padding:0 12px;font-weight:700;">${item.qty}</span><button class="qty-btn" onclick="updateQty(${item.id},1)">+</button></div></div><button class="remove-btn" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button></div>`).join('')}<div class="cart-total"><h3>Total: Rs. ${total.toLocaleString()}</h3></div><button class="checkout-btn" onclick="checkout()"><i class="fab fa-whatsapp"></i> Order on WhatsApp</button>`}modal.classList.add('active')}
-        function closeCart(){document.getElementById('cartModal').classList.remove('active')}
-        function updateQty(id,change){const item=cart.find(i=>i.id===id);if(item){item.qty+=change;if(item.qty<=0){removeFromCart(id)}else{saveCart();updateCartCount();openCart()}}}
-        function removeFromCart(id){cart=cart.filter(item=>item.id!==id);saveCart();updateCartCount();openCart()}
-
-        function checkout(){
-            if(cart.length===0)return;
-            if(!currentUser){closeCart();openLogin();showToast('Please login first!');return}
-            const total=cart.reduce((sum,item)=>sum+(item.price*item.qty),0);
-            let message=`*New Order from Trolley Shop*%0A%0A`;
-            message+=`*Customer:* ${currentUser.name}%0A`;
-            message+=`*Phone:* ${currentUser.phone}%0A%0A`;
-            message+=`*Order Details:*%0A`;
-            cart.forEach(item=>{
-                message+=`• *${item.name}*%0A`;
-                message+=` Qty: ${item.qty} x Rs. ${item.price.toLocaleString()} = Rs. ${(item.price*item.qty).toLocaleString()}%0A`;
-                message+=` 🖼️ Image: ${item.image}%0A%0A`;
-            });
-            message+=`*Total: Rs. ${total.toLocaleString()}*%0A%0APlease confirm my order.`;
-
-            // 👇 YAHAN APNA WHATSAPP NUMBER DALNA 92 KE SAATH 👇
-            const whatsappNumber="923462872486";
-            window.open(`https://wa.me/${whatsappNumber}?text=${message}`,'_blank');
-
-            cart=[];
-            saveCart();
-            updateCartCount();
-            closeCart();
-            showToast('Order sent to WhatsApp!');
-        }
-
-        function openLogin(){document.getElementById('loginModal').classList.add('active')}
-        function closeLogin(){document.getElementById('loginModal').classList.remove('active')}
-        function loginUser(){const name=document.getElementById('loginName').value.trim();const phone=document.getElementById('loginPhone').value.trim();if(!name||!phone){showToast('Please fill all fields!');return}currentUser={name,phone};localStorage.setItem('user',JSON.stringify(currentUser));updateUserDisplay();closeLogin();showToast(`Welcome, ${name}!`)}
-        function updateUserDisplay(){if(currentUser){document.getElementById('userName').textContent=currentUser.name.split(' ')[0]}}
-        function scrollToHome(){window.scrollTo({top:0,behavior:'smooth'})}
-        function scrollToProducts(){document.getElementById('productsGrid').scrollIntoView({behavior:'smooth'})}
-        function scrollToFooter(){document.getElementById('footer').scrollIntoView({behavior:'smooth'})}
-        window.addEventListener('scroll',()=>{const topNav=document.getElementById('topNav');const homeFab=document.getElementById('homeFab');if(window.scrollY>200){topNav.classList.add('active');homeFab.classList.add('show')}else{topNav.classList.remove('active');homeFab.classList.remove('show')}});
-        function showToast(msg){const toast=document.createElement('div');toast.style.cssText=`position:fixed;bottom:30px;right:30px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;padding:16px 24px;border-radius:12px;font-weight:600;z-index:9999;animation:slideInRight 0.3s ease;box-shadow:0 10px 40px rgba(99,102,241,0.5);`;toast.textContent=msg;document.body.appendChild(toast);setTimeout(()=>toast.remove(),3000)}
-        document.getElementById('cartModal').addEventListener('click',function(e){if(e.target===this)closeCart()});
-        document.getElementById('loginModal').addEventListener('click',function(e){if(e.target===this)closeLogin()});
-
-        init();
-    </script>
 </body>
 </html>

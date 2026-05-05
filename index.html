@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Trolley Shop - Pro 2050</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -15,17 +16,21 @@
        .header{position:sticky;top:0;z-index:1000;background:rgba(10,14,26,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
        .top-bar{background:var(--gradient);padding:8px 20px;text-align:center;font-size:13px;font-weight:600}
        .navbar{padding:15px 20px;display:flex;align-items:center;gap:15px;max-width:1400px;margin:0 auto}
-       .logo{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;display:flex;align-items:center;gap:10px;flex-shrink:0}
-       .logo-icon{width:40px;height:40px;background:var(--gradient);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(99,102,241,0.4)}
+       .logo{font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;display:flex;align-items:center;gap:10px;flex-shrink:0;transition:all 0.3s ease}
+       .logo:hover{transform:scale(1.05)}
+       .logo-icon{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(99,102,241,0.4);transition:all 0.5s ease;overflow:hidden;padding:6px}
+       .logo-icon:hover{transform:rotate(360deg)}
+       .logo-icon img{width:100%;height:100%;object-fit:contain}
        .search-bar{flex:1;max-width:600px;position:relative}
        .search-bar input{width:100%;padding:14px 50px 14px 20px;background:var(--glass);border:1px solid var(--border);border-radius:16px;color:var(--text);font-size:15px;transition:all 0.3s ease}
        .search-bar input:focus{outline:none;border-color:var(--primary);background:rgba(255,255,255,0.08);box-shadow:0 0 0 4px rgba(99,102,241,0.1)}
        .search-bar button{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:10px 18px;background:var(--primary);border:none;border-radius:12px;color:white;cursor:pointer;transition:all 0.3s ease}
        .search-bar button:hover{background:#4f46e5;transform:translateY(-50%) scale(1.05)}
+       .mobile-search-btn{display:none;padding:12px;background:var(--glass);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--text);font-size:18px}
        .nav-actions{display:flex;gap:12px;align-items:center}
-       .cart-btn{position:relative;padding:12px 20px;background:var(--glass);border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;gap:8px}
-       .cart-btn:hover{background:var(--card-hover);border-color:var(--primary);transform:translateY(-2px)}
-       .cart-count{position:absolute;top:-8px;right:-8px;background:var(--danger);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(239,68,68,0.4)}
+       .user-btn,.cart-btn{position:relative;padding:12px 20px;background:var(--glass);border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;gap:8px}
+       .user-btn:hover,.cart-btn:hover{background:var(--card-hover);border-color:var(--primary);transform:translateY(-2px)}
+       .cart-count{position:absolute;top:-8px;right:-8px;background:var(--danger);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(239,68,0.4)}
        .categories{display:flex;gap:10px;padding:15px 20px;overflow-x:auto;scrollbar-width:none;max-width:1400px;margin:0 auto}
        .categories::-webkit-scrollbar{display:none}
        .category{padding:10px 20px;background:var(--glass);border:1px solid var(--border);border-radius:12px;white-space:nowrap;cursor:pointer;transition:all 0.3s ease;font-weight:600;font-size:14px}
@@ -147,14 +152,63 @@
        .search-input-wrapper input:focus{outline:none;border-color:var(--primary)}
        .close-search{width:44px;height:44px;background:var(--glass);border:1px solid var(--border);border-radius:12px;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
        .search-results{padding:20px;max-width:1400px;margin:0 auto}
-       .skeleton{background:linear-gradient(90deg,var(--card) 25%,var(--card-hover) 50%,var(--card) 75%);background-size:200% 100%;animation:loading 1.5s infinite}
-        @keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
-        @media(max-width:768px){.navbar{padding:12px 15px}.logo{font-size:22px}.logo-icon{width:32px;height:32px;font-size:16px}.search-bar{display:none}.cart-btn{padding:10px 16px;font-size:14px}.categories{padding:12px 15px}.category{padding:8px 16px;font-size:13px}.main-container{padding:20px 15px}.products-grid{grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}.product-image{height:180px}.product-info{padding:12px}.product-name{font-size:14px}.current-price{font-size:18px}.old-price{font-size:13px}.btn-add-cart,.btn-buy{padding:11px;font-size:13px}.cart-sidebar{width:100%;right:-100%}.cart-sidebar.active{right:0}.detail-content{grid-template-columns:1fr;gap:20px;padding:20px}.detail-info h1{font-size:24px}.detail-price .current{font-size:28px}.checkout-modal{width:95%;padding:24px}.categories-sidebar{width:280px}}
-        @media(max-width:480px){.products-grid{gap:10px}.product-card{border-radius:16px}.product-image{height:160px}.product-badge{top:10px;left:10px;padding:4px 10px;font-size:11px}.product-actions{flex-direction:column}.btn-add-cart,.btn-buy{width:100%}}
+       .auth-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--border);border-radius:24px;padding:30px;z-index:2001;max-width:450px;width:90%;max-height:90vh;overflow-y:auto}
+       .auth-modal.active{display:block}
+       .auth-modal h2{margin-bottom:24px;font-size:26px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+       .auth-tabs{display:flex;gap:10px;margin-bottom:24px}
+       .auth-tab{flex:1;padding:12px;background:var(--glass);border:1px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-weight:600;transition:all 0.3s ease}
+       .auth-tab.active{background:var(--primary);border-color:var(--primary)}
+       .auth-form{display:none}
+       .auth-form.active{display:block}
+       .auth-switch{text-align:center;margin-top:16px;color:var(--gray);font-size:14px}
+       .auth-switch span{color:var(--primary);cursor:pointer;font-weight:600}
+       .user-menu{display:none;position:absolute;top:60px;right:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px;min-width:200px;box-shadow:0 10px 40px rgba(0,0,0,0.5);z-index:1001}
+       .user-menu.active{display:block}
+       .user-menu-item{padding:12px 16px;border-radius:10px;cursor:pointer;transition:all 0.3s ease;display:flex;align-items:center;gap:10px}
+       .user-menu-item:hover{background:var(--glass)}
+       .user-info{padding:12px 16px;border-bottom:1px solid var(--border);margin-bottom:8px}
+       .user-info h4{font-size:16px;margin-bottom:4px}
+       .user-info p{font-size:13px;color:var(--gray)}
+        @media(max-width:768px){
+            .navbar{padding:12px 15px}
+            .logo{font-size:20px}
+            .logo-icon{width:40px;height:40px}
+            .search-bar{display:none}
+            .mobile-search-btn{display:block}
+            .cart-btn{padding:10px 14px}
+            .user-btn{padding:10px 14px}
+            .categories{padding:12px 15px}
+            .category{padding:8px 16px;font-size:13px}
+            .main-container{padding:20px 15px}
+            .products-grid{grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+            .product-image{height:180px}
+            .product-info{padding:12px}
+            .product-name{font-size:14px}
+            .current-price{font-size:18px}
+            .old-price{font-size:13px}
+            .btn-add-cart,.btn-buy{padding:11px;font-size:13px}
+            .cart-sidebar{width:100%;right:-100%}
+            .cart-sidebar.active{right:0}
+            .detail-content{grid-template-columns:1fr;gap:20px;padding:20px}
+            .detail-info h1{font-size:24px}
+            .detail-price .current{font-size:28px}
+            .checkout-modal{width:95%;padding:24px}
+            .categories-sidebar{width:280px}
+        }
+        @media(max-width:480px){
+            .products-grid{gap:10px}
+            .product-card{border-radius:16px}
+            .product-image{height:160px}
+            .product-badge{top:10px;left:10px;padding:4px 10px;font-size:11px}
+            .product-actions{flex-direction:column}
+            .btn-add-cart,.btn-buy{width:100%}
+            .logo span{display:none}
+        }
     </style>
     <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-      import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+      import { getFirestore, collection, getDocs, addDoc, doc, getDoc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
       
       const firebaseConfig = {
         apiKey: "AIzaSyCzX8hDHEu6BrpSLRLEFqdUDVzFzt2gAl8",
@@ -167,10 +221,20 @@
       
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      const auth = getAuth(app);
       window.db = db;
+      window.auth = auth;
       window.getDocs = getDocs;
       window.collection = collection;
       window.addDoc = addDoc;
+      window.doc = doc;
+      window.getDoc = getDoc;
+      window.setDoc = setDoc;
+      window.updateDoc = updateDoc;
+      window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+      window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+      window.signOut = signOut;
+      window.onAuthStateChanged = onAuthStateChanged;
     </script>
 </head>
 <body>
@@ -180,14 +244,21 @@
         </div>
         <div class="navbar">
             <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-                <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
-                Trolley Shop
+                <div class="logo-icon">
+                    <img src="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png" alt="Trolley Shop">
+                </div>
+                <span>Trolley Shop</span>
             </div>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Search 600+ products..." onkeyup="searchProducts()">
                 <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
             </div>
             <div class="nav-actions">
+                <button class="mobile-search-btn" onclick="openMobileSearch()"><i class="fas fa-search"></i></button>
+                <div class="user-btn" onclick="toggleUserMenu()" id="userBtn">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-menu" id="userMenu"></div>
                 <div class="cart-btn" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cartCount">0</span>
@@ -207,10 +278,20 @@
         </div>
     </div>
 
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-header">
+            <div class="search-input-wrapper">
+                <input type="text" id="mobileSearchInput" placeholder="Search products..." onkeyup="mobileSearchProducts()">
+                <button class="close-search" onclick="closeMobileSearch()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="search-results" id="mobileSearchResults"></div>
+    </div>
+
     <div class="main-container">
         <div class="loading active" id="loading">
             <div class="spinner"></div>
-            <p style="margin-top:20px;color:var(--gray)">Loading products...</p>
+            <p style="margin-top:20px;color:var(--gray)">Loading products from Firebase...</p>
         </div>
         <div class="products-grid" id="productsGrid"></div>
     </div>
@@ -242,7 +323,7 @@
         </div>
     </div>
 
-    <div class="checkout-modal" id="checkoutModal">
+       <div class="checkout-modal" id="checkoutModal">
         <h2><i class="fas fa-shield-halved"></i> Secure Checkout</h2>
         <div class="form-group">
             <label>Full Name *</label>
@@ -300,6 +381,48 @@
         <button class="submit-order" onclick="submitOrder()"><i class="fas fa-check-circle"></i> Place Order</button>
     </div>
 
+    <div class="auth-modal" id="authModal">
+        <h2><i class="fas fa-user-circle"></i> Customer Account</h2>
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
+            <div class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</div>
+        </div>
+        
+        <div class="auth-form active" id="loginForm">
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="loginEmail" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label>Password *</label>
+                <input type="password" id="loginPassword" placeholder="Enter password">
+            </div>
+            <button class="btn-primary" onclick="customerLogin()" style="width:100%"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <div class="auth-switch">Don't have account? <span onclick="switchAuthTab('signup')">Sign Up</span></div>
+        </div>
+
+        <div class="auth-form" id="signupForm">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="signupName" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="signupEmail" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label>Phone *</label>
+                <input type="tel" id="signupPhone" placeholder="03XX-XXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>Password *</label>
+                <input type="password" id="signupPassword" placeholder="Min 6 characters">
+            </div>
+            <button class="btn-primary" onclick="customerSignup()" style="width:100%"><i class="fas fa-user-plus"></i> Create Account</button>
+            <div class="auth-switch">Already have account? <span onclick="switchAuthTab('login')">Login</span></div>
+        </div>
+    </div>
+
     <div class="bottom-nav">
         <div class="nav-item active" onclick="goHome()">
             <i class="fas fa-home"></i>
@@ -341,7 +464,7 @@
             <div class="sidebar-cat-item" onclick="selectSidebarCategory('girls')">
                 <i class="fas fa-female"></i> Women's Fashion
             </div>
-                        <div class="sidebar-cat-item" onclick="selectSidebarCategory('kids')">
+            <div class="sidebar-cat-item" onclick="selectSidebarCategory('kids')">
                 <i class="fas fa-child"></i> Kids & Toys
             </div>
             <div class="sidebar-cat-item" onclick="selectSidebarCategory('fashion')">
@@ -362,6 +485,127 @@
         let currentCategory = 'all';
         let selectedPayment = '';
         let currentDetailProduct = null;
+        let currentUser = null;
+        let searchActive = false;
+
+        // Firebase Auth State
+        onAuthStateChanged(auth, (user) => {
+            if(user){
+                currentUser = user;
+                updateUserUI();
+            }else{
+                currentUser = null;
+                updateUserUI();
+            }
+        });
+
+        function updateUserUI(){
+            const userMenu = document.getElementById('userMenu');
+            if(currentUser){
+                userMenu.innerHTML = `
+                    <div class="user-info">
+                        <h4>${currentUser.displayName || 'Customer'}</h4>
+                        <p>${currentUser.email}</p>
+                    </div>
+                    <div class="user-menu-item" onclick="openMyOrders()">
+                        <i class="fas fa-shopping-bag"></i> My Orders
+                    </div>
+                    <div class="user-menu-item" onclick="customerLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </div>
+                `;
+            }else{
+                userMenu.innerHTML = `
+                    <div class="user-menu-item" onclick="openAuthModal()">
+                        <i class="fas fa-sign-in-alt"></i> Login / Sign Up
+                    </div>
+                `;
+            }
+        }
+
+        function toggleUserMenu(){
+            document.getElementById('userMenu').classList.toggle('active');
+        }
+
+        function openAccount(){
+            if(currentUser){
+                toggleUserMenu();
+            }else{
+                openAuthModal();
+            }
+        }
+
+        function openAuthModal(){
+            document.getElementById('authModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('userMenu').classList.remove('active');
+        }
+
+        function switchAuthTab(tab){
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Form').classList.add('active');
+        }
+
+        async function customerSignup(){
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            
+            if(!name || !email || !phone || !password){
+                alert('Please fill all fields!');
+                return;
+            }
+            if(password.length < 6){
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+
+            try{
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", userCred.user.uid), {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    createdAt: Date.now()
+                });
+                closeAllModals();
+                showToast('Account created successfully!');
+            }catch(error){
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function customerLogin(){
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if(!email || !password){
+                alert('Please enter email and password!');
+                return;
+            }
+
+            try{
+                await signInWithEmailAndPassword(auth, email, password);
+                closeAllModals();
+                showToast('Logged in successfully!');
+            }catch(error){
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function customerLogout(){
+            await signOut(auth);
+            document.getElementById('userMenu').classList.remove('active');
+            showToast('Logged out successfully!');
+        }
+
+        function openMyOrders(){
+            alert('My Orders feature coming soon!');
+            document.getElementById('userMenu').classList.remove('active');
+        }
 
         async function loadProductsFromFirebase(){
             const querySnapshot = await getDocs(collection(db, "products"));
@@ -372,7 +616,18 @@
 
         function renderProducts(){
             const grid = document.getElementById('productsGrid');
-            const filtered = currentCategory === 'all' ? allProducts : allProducts.filter(p => p.category === currentCategory);
+            let filtered = currentCategory === 'all' ? allProducts : allProducts.filter(p => p.category === currentCategory);
+            
+            // Search filter
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            if(searchQuery){
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchQuery) || 
+                    p.description.toLowerCase().includes(searchQuery) ||
+                    p.category.toLowerCase().includes(searchQuery)
+                );
+            }
+            
             if(filtered.length === 0){
                 grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray)"><i class="fas fa-box-open" style="font-size:64px;opacity:0.3;margin-bottom:20px"></i><p>No products found</p></div>';
                 return;
@@ -437,24 +692,48 @@
             currentCategory = cat;
             document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
             event.target.classList.add('active');
+            document.getElementById('searchInput').value = '';
             renderProducts();
             window.scrollTo({top:0,behavior:'smooth'});
         }
 
         function searchProducts(){
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const grid = document.getElementById('productsGrid');
+            renderProducts();
+            window.scrollTo({top:200,behavior:'smooth'});
+        }
+
+        function openMobileSearch(){
+            document.getElementById('searchOverlay').classList.add('active');
+            document.getElementById('mobileSearchInput').focus();
+        }
+
+        function closeMobileSearch(){
+            document.getElementById('searchOverlay').classList.remove('active');
+            document.getElementById('mobileSearchInput').value = '';
+        }
+
+        function mobileSearchProducts(){
+            const query = document.getElementById('mobileSearchInput').value.toLowerCase();
+            const resultsDiv = document.getElementById('mobileSearchResults');
+            
             if(!query){
-                renderProducts();
+                resultsDiv.innerHTML = '';
                 return;
             }
+            
             const filtered = allProducts.filter(p => 
                 p.name.toLowerCase().includes(query) || 
                 p.description.toLowerCase().includes(query) ||
                 p.category.toLowerCase().includes(query)
             );
-            grid.innerHTML = filtered.map(p => `
-                <div class="product-card" onclick="openProductDetail('${p.id}')">
+            
+            if(filtered.length === 0){
+                resultsDiv.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray)"><i class="fas fa-search" style="font-size:48px;opacity:0.3;margin-bottom:16px"></i><p>No products found</p></div>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div class="products-grid">' + filtered.map(p => `
+                <div class="product-card" onclick="openProductDetail('${p.id}');closeMobileSearch()">
                     ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
                     <img src="${p.image}" alt="${p.name}" class="product-image">
                     <div class="product-info">
@@ -464,12 +743,12 @@
                             ${p.oldPrice ? `<span class="old-price">Rs ${p.oldPrice.toLocaleString()}</span>` : ''}
                         </div>
                         <div class="product-actions">
-                            <button class="btn-add-cart" onclick="event.stopPropagation();addToCart('${p.id}')"><i class="fas fa-cart-plus"></i> Cart</button>
-                            <button class="btn-buy" onclick="event.stopPropagation();buyNow('${p.id}')"><i class="fas fa-bolt"></i> Buy</button>
+                            <button class="btn-add-cart" onclick="event.stopPropagation();addToCart('${p.id}');closeMobileSearch()"><i class="fas fa-cart-plus"></i> Cart</button>
+                            <button class="btn-buy" onclick="event.stopPropagation();buyNow('${p.id}');closeMobileSearch()"><i class="fas fa-bolt"></i> Buy</button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `).join('') + '</div>';
         }
 
         function addToCart(id){
@@ -552,8 +831,23 @@
                 alert('Your cart is empty!');
                 return;
             }
+            if(!currentUser){
+                alert('Please login first!');
+                openAuthModal();
+                return;
+            }
             document.getElementById('checkoutModal').classList.add('active');
             document.getElementById('overlay').classList.add('active');
+            // Auto-fill user data
+            if(currentUser){
+                getDoc(doc(db, "users", currentUser.uid)).then(docSnap => {
+                    if(docSnap.exists()){
+                        const data = docSnap.data();
+                        document.getElementById('customerName').value = data.name || '';
+                        document.getElementById('customerPhone').value = data.phone || '';
+                    }
+                });
+            }
         }
 
         function selectPayment(method){
@@ -585,7 +879,9 @@
 
             const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             const order = {
+                userId: currentUser.uid,
                 customer: name,
+                email: currentUser.email,
                 phone: phone,
                 address: address,
                 city: city,
@@ -616,12 +912,18 @@
             document.getElementById('productDetailModal').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('categoriesSidebar').classList.remove('active');
+            document.getElementById('searchOverlay').classList.remove('active');
+            document.getElementById('authModal').classList.remove('active');
+            document.getElementById('userMenu').classList.remove('active');
         }
 
         function goHome(){
             window.scrollTo({top:0,behavior:'smooth'});
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             event.currentTarget.classList.add('active');
+            currentCategory = 'all';
+            document.getElementById('searchInput').value = '';
+            renderProducts();
         }
 
         function openCategories(){
@@ -645,10 +947,6 @@
             window.scrollTo({top:0,behavior:'smooth'});
         }
 
-        function openAccount(){
-            alert('Account feature coming soon!');
-        }
-
         function showToast(msg){
             const toast = document.createElement('div');
             toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--success);color:white;padding:14px 24px;border-radius:12px;font-weight:600;z-index:3000;box-shadow:0 10px 30px rgba(16,185,129,0.4);animation:slideUp 0.3s ease';
@@ -663,6 +961,15 @@
         }
 
         window.onload = initApp;
+        
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(e){
+            const userMenu = document.getElementById('userMenu');
+            const userBtn = document.getElementById('userBtn');
+            if(!userMenu.contains(e.target) && !userBtn.contains(e.target)){
+                userMenu.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>

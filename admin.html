@@ -84,21 +84,41 @@
       .jazzcash-info{background:rgba(226,19,110,0.1);border:1px solid rgba(226,19,110,0.3);border-radius:12px;padding:16px;margin-bottom:20px}
       .jazzcash-info h3{color:var(--jazzcash);margin-bottom:10px;display:flex;align-items:center;gap:8px}
       .jazzcash-info p{color:var(--gray);font-size:14px}
-      .pagination{display:flex;gap:8px;justify-content:center;margin-top:20px}
-      .page-btn{padding:8px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--light);cursor:pointer}
-      .page-btn.active{background:var(--primary);border-color:var(--primary)}
       .img-preview{width:100px;height:100px;object-fit:cover;border-radius:10px;border:2px solid rgba(255,255,255,0.1);margin-top:10px}
       .search-box{margin-bottom:20px}
       .search-box input{width:100%;padding:12px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:15px}
         @media(max-width:768px){.header{padding:16px}.header h1{font-size:20px}.container{padding:20px 15px}.stats-grid{grid-template-columns:repeat(2,1fr);gap:12px}.form-grid{grid-template-columns:1fr}.product-table{font-size:12px}td,th{padding:8px 4px}td img{width:35px;height:35px}.tabs{gap:8px}.tab{padding:10px 14px;font-size:13px}.login-box{padding:30px 20px}.stat-card{padding:16px}.stat-card h3{font-size:24px}.stat-card i{font-size:24px}}
     </style>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+      import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+      
+      const firebaseConfig = {
+        apiKey: "AIzaSyCzX8hDHEu6BrpSLRLEFqdUDVzFzt2gAl8",
+        authDomain: "trolley-shop-7e982.firebaseapp.com",
+        projectId: "trolley-shop-7e982",
+        storageBucket: "trolley-shop-7e982.firebasestorage.app",
+        messagingSenderId: "120966337022",
+        appId: "1:120966337022:web:f2dbf5f621a9c41a18f813"
+      };
+      
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      window.db = db;
+      window.getDocs = getDocs;
+      window.collection = collection;
+      window.addDoc = addDoc;
+      window.updateDoc = updateDoc;
+      window.deleteDoc = deleteDoc;
+      window.doc = doc;
+    </script>
 </head>
 <body>
     <div class="login-screen" id="loginScreen">
         <div class="login-box">
             <div class="login-icon"><i class="fas fa-lock"></i></div>
             <h1>Admin Login V2.2</h1>
-            <p>Pro 2050 Dashboard</p>
+            <p>Pro 2050 Dashboard + Firebase</p>
             <div id="errorMsg" class="error-msg"><i class="fas fa-exclamation-circle"></i> Invalid username or password!</div>
             <div class="form-group">
                 <label><i class="fas fa-envelope"></i> Email</label>
@@ -121,7 +141,7 @@
         <div class="container">
             <div class="jazzcash-info">
                 <h3><i class="fas fa-mobile-alt"></i> JazzCash Account Connected</h3>
-                <p>Account Number: <strong>0331-0439111</strong> | All payments tracked automatically | 600+ Products Supported</p>
+                <p>Account Number: <strong>0331-0439111</strong> | Firebase Connected | 600+ Products Supported</p>
             </div>
 
             <div class="stats-grid">
@@ -161,13 +181,12 @@
                 <button class="tab active" onclick="switchTab('products')"><i class="fas fa-box"></i> Products</button>
                 <button class="tab" onclick="switchTab('orders')"><i class="fas fa-shopping-bag"></i> Orders</button>
                 <button class="tab" onclick="switchTab('payments')"><i class="fas fa-mobile-alt"></i> JazzCash</button>
-                <button class="tab" onclick="switchTab('reviews')"><i class="fas fa-star"></i> Reviews</button>
             </div>
 
             <div id="productsSection" class="content-section active">
                 <div class="card">
-                    <h2><i class="fas fa-plus-circle"></i> Add New Product - 600+ Supported</h2>
-                    <div id="successMsg" class="success-msg"><i class="fas fa-check-circle"></i> Product added successfully!</div>
+                    <h2><i class="fas fa-plus-circle"></i> Add New Product - Firebase</h2>
+                    <div id="successMsg" class="success-msg"><i class="fas fa-check-circle"></i> Product added to Firebase!</div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Product Name *</label>
@@ -197,49 +216,41 @@
                                 <option value="gents">Men's Fashion</option>
                                 <option value="girls">Women's Fashion</option>
                                 <option value="kids">Kids & Toys</option>
-                                <option value="toys">Toys & Games</option>
                                 <option value="fashion">Fashion</option>
                                 <option value="accessories">Accessories</option>
                                 <option value="beauty">Beauty</option>
-                                <option value="home">Home & Living</option>
-                                <option value="sports">Sports</option>
                             </select>
                         </div>
+                                           </select>
                     </div>
                     <div class="form-group">
-                        <label>Image URL * (PostImages/GitHub)</label>
-                        <input type="text" id="productImage" placeholder="https://i.postimg.cc/xyz/product.jpg" onkeyup="previewImage()">
-                        <img id="imgPreview" class="img-preview" style="display:none">
+                        <label>Product Image URL *</label>
+                        <input type="url" id="productImage" placeholder="https://i.ibb.co/...">
+                        <img id="imagePreview" class="img-preview" style="display:none">
                     </div>
                     <div class="form-group">
-                        <label>Product Description *</label>
-                        <textarea id="productDesc" rows="3" placeholder="Enter product details, features, specifications..."></textarea>
+                        <label>Description</label>
+                        <textarea id="productDescription" rows="3" placeholder="Product details..."></textarea>
                     </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Badge (Optional)</label>
-                            <select id="productBadge">
-                                <option value="">No Badge</option>
-                                <option value="NEW">NEW</option>
-                                <option value="HOT">HOT</option>
-                                <option value="SALE">SALE</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Discount % (Optional)</label>
-                            <input type="number" id="productDiscount" placeholder="20" min="0" max="90">
-                        </div>
+                    <div class="form-group">
+                        <label>Badge (Optional)</label>
+                        <select id="productBadge">
+                            <option value="">None</option>
+                            <option value="NEW">NEW</option>
+                            <option value="HOT">HOT</option>
+                            <option value="SALE">SALE</option>
+                            <option value="BESTSELLER">BESTSELLER</option>
+                        </select>
                     </div>
-                    <div style="display:flex;gap:10px">
-                        <button class="btn-primary" onclick="addProduct()"><i class="fas fa-plus"></i> <span id="btnText">Add Product</span></button>
-                        <button class="btn-danger" onclick="cancelEdit()" id="cancelBtn" style="display:none"><i class="fas fa-times"></i> Cancel</button>
-                    </div>
+                    <button class="btn-primary" onclick="addProduct()" id="submitBtn">
+                        <i class="fas fa-plus-circle"></i> Add Product to Firebase
+                    </button>
                 </div>
 
                 <div class="card">
-                    <h2><i class="fas fa-list"></i> All Products (<span id="productCount">0</span>)</h2>
+                    <h2><i class="fas fa-list"></i> Manage Products</h2>
                     <div class="search-box">
-                        <input type="text" id="searchProduct" placeholder="Search products..." onkeyup="searchProducts()">
+                        <input type="text" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
                     </div>
                     <div class="product-table">
                         <table>
@@ -247,19 +258,22 @@
                                 <tr>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>Category</th>
                                     <th>Price</th>
-                                    <th>Cost</th>
-                                    <th>Profit/Unit</th>
                                     <th>Stock</th>
-                                    <th>Sold</th>
+                                    <th>Category</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="productTableBody"></tbody>
+                            <tbody id="productTableBody">
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        <p>Loading from Firebase...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
-                    <div class="pagination" id="pagination"></div>
                 </div>
             </div>
 
@@ -270,17 +284,25 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Product</th>
+                                    <th>Order ID</th>
                                     <th>Customer</th>
                                     <th>Phone</th>
-                                    <th>Amount</th>
-                                    <th>Profit</th>
+                                    <th>Total</th>
+                                    <th>Payment</th>
+                                    <th>TID</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="ordersTableBody"></tbody>
+                            <tbody id="ordersTableBody">
+                                <tr>
+                                    <td colspan="9" class="empty-state">
+                                        <i class="fas fa-box-open"></i>
+                                        <p>No orders yet</p>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -288,32 +310,34 @@
 
             <div id="paymentsSection" class="content-section">
                 <div class="card">
-                    <h2><i class="fas fa-mobile-alt"></i> JazzCash Payments - 0331-0439111</h2>
+                    <h2><i class="fas fa-mobile-alt"></i> JazzCash Payments</h2>
+                    <div class="jazzcash-info">
+                        <h3><i class="fas fa-wallet"></i> Your JazzCash Account</h3>
+                        <p><strong>Number:</strong> 0331-0439111</p>
+                        <p><strong>Account Name:</strong> Trolley Shop</p>
+                        <p>All JazzCash orders will appear here with Transaction IDs</p>
+                    </div>
                     <div class="product-table">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Product</th>
-                                    <th>Customer</th>
-                                    <th>JazzCash #</th>
                                     <th>TID</th>
+                                    <th>Customer</th>
+                                    <th>JazzCash Number</th>
                                     <th>Amount</th>
                                     <th>Status</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
-                            <tbody id="paymentsTableBody"></tbody>
+                            <tbody id="jazzcashTableBody">
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <i class="fas fa-receipt"></i>
+                                        <p>No JazzCash payments yet</p>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="reviewsSection" class="content-section">
-                <div class="card">
-                    <h2><i class="fas fa-star"></i> Customer Reviews</h2>
-                    <div class="empty-state">
-                        <i class="fas fa-comments"></i>
-                        <p>No reviews yet</p>
                     </div>
                 </div>
             </div>
@@ -321,366 +345,250 @@
     </div>
 
     <script>
-        // OBFUSCATED CREDENTIALS
-        const _0x1a2b = atob('YWRtaW5AdHJvbGxleS5jb20=');
-        const _0x3c4d = atob('YWRtaW5AMTIz');
-
-        let products = JSON.parse(localStorage.getItem('adminProducts')) || [];
-        let orders = JSON.parse(localStorage.getItem('adminOrders')) || [];
-        let currentProductPage = 1;
-        const productsPerPageAdmin = 50;
-        let editMode = false;
-        let editId = null;
+        const ADMIN_EMAIL = 'admin@trolley.com';
+        const ADMIN_PASSWORD = 'admin@123';
+        let products = [];
+        let orders = [];
         let filteredProducts = [];
-
-        function checkLogin(){
-            const isLoggedIn = localStorage.getItem('adminLoggedIn');
-            if(isLoggedIn === 'true'){
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('dashboard').classList.add('active');
-                loadDashboard();
-            }
-        }
+        let editingProductId = null;
 
         function adminLogin(){
             const username = document.getElementById('adminUsername').value.trim();
-            const password = document.getElementById('adminPassword').value.trim();
+            const password = document.getElementById('adminPassword').value;
             const errorMsg = document.getElementById('errorMsg');
-            if(username === _0x1a2b && password === _0x3c4d){
-                localStorage.setItem('adminLoggedIn','true');
+            
+            if(username === ADMIN_EMAIL && password === ADMIN_PASSWORD){
+                errorMsg.classList.remove('show');
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('dashboard').classList.add('active');
                 loadDashboard();
             }else{
                 errorMsg.classList.add('show');
-                setTimeout(()=>errorMsg.classList.remove('show'),3000);
+                setTimeout(() => errorMsg.classList.remove('show'), 3000);
             }
         }
 
         function adminLogout(){
-            if(confirm('Are you sure you want to logout?')){
-                localStorage.removeItem('adminLoggedIn');
-                location.reload();
-            }
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
         }
 
-        function loadDashboard(){
+        async function loadDashboard(){
+            const querySnapshot = await getDocs(collection(db, "products"));
+            products = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
             filteredProducts = [...products];
+            
+            const ordersSnapshot = await getDocs(collection(db, "orders"));
+            orders = ordersSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+            
             renderProductTable();
             renderOrdersTable();
-            renderPaymentsTable();
+            renderJazzCashTable();
             updateStats();
+        }
+
+        function switchTab(tab){
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tab + 'Section').classList.add('active');
         }
 
         function updateStats(){
             document.getElementById('totalProducts').textContent = products.length;
             document.getElementById('totalOrders').textContent = orders.length;
-            const totalSold = products.reduce((sum,p)=>sum+(p.sold||0),0);
-            const totalRevenue = products.reduce((sum,p)=>sum+(p.price*(p.sold||0)),0);
-            const totalCost = products.reduce((sum,p)=>sum+((p.cost||0)*(p.sold||0)),0);
-            const totalProfit = totalRevenue - totalCost;
-            const totalStock = products.reduce((sum,p)=>sum+(p.stock||0),0);
-            document.getElementById('totalSales').textContent = totalSold;
-            document.getElementById('totalRevenue').textContent = 'Rs ' + totalRevenue.toLocaleString();
-            document.getElementById('totalProfit').textContent = 'Rs ' + totalProfit.toLocaleString();
-            document.getElementById('totalStock').textContent = totalStock;
-            document.getElementById('productCount').textContent = products.length;
-        }
-
-        function switchTab(tab){
-            document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-            document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tab+'Section').classList.add('active');
-        }
-
-        function previewImage(){
-            const url = document.getElementById('productImage').value;
-            const preview = document.getElementById('imgPreview');
-            if(url){
-                preview.src = url;
-                preview.style.display = 'block';
-            }else{
-                preview.style.display = 'none';
-            }
-        }
-
-        function searchProducts(){
-            const query = document.getElementById('searchProduct').value.toLowerCase();
-            filteredProducts = products.filter(p=>
-                p.name.toLowerCase().includes(query) ||
-                p.category.toLowerCase().includes(query) ||
-                p.description.toLowerCase().includes(query)
-            );
-            currentProductPage = 1;
-            renderProductTable();
-        }
-
-        function renderProductTable(){
-            const tbody = document.getElementById('productTableBody');
-            const start = (currentProductPage - 1) * productsPerPageAdmin;
-            const paginatedProducts = filteredProducts.slice(start, start + productsPerPageAdmin);
             
-            if(filteredProducts.length === 0){
-                tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><i class="fas fa-box-open"></i><p>No products found</p></td></tr>';
-                return;
-            }
-            tbody.innerHTML = paginatedProducts.map(p => `
-                <tr>
-                    <td><img src="${p.image}" alt="${p.name}"></td>
-                    <td><strong>${p.name}</strong></td>
-                    <td><span class="badge badge-cat">${p.category.toUpperCase()}</span></td>
-                    <td><strong>Rs ${p.price.toLocaleString()}</strong></td>
-                    <td>Rs ${(p.cost||0).toLocaleString()}</td>
-                    <td style="color:var(--success)">Rs ${(p.price-(p.cost||0)).toLocaleString()}</td>
-                    <td>${p.stock || 0}</td>
-                    <td>${p.sold || 0}</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button>
-                            <button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-            renderPagination();
+            const totalSales = orders.reduce((sum, o) => sum + o.items.reduce((s, i) => s + i.qty, 0), 0);
+            document.getElementById('totalSales').textContent = totalSales;
+            
+            const revenue = orders.reduce((sum, o) => sum + o.total, 0);
+            document.getElementById('totalRevenue').textContent = 'Rs ' + revenue.toLocaleString();
+            
+            const profit = orders.reduce((sum, o) => {
+                return sum + o.items.reduce((s, i) => {
+                    const p = products.find(pr => pr.id === i.id);
+                    return s + ((p?.price || 0) - (p?.cost || 0)) * i.qty;
+                }, 0);
+            }, 0);
+            document.getElementById('totalProfit').textContent = 'Rs ' + profit.toLocaleString();
+            
+            const stock = products.reduce((sum, p) => sum + (p.stock || 0), 0);
+            document.getElementById('totalStock').textContent = stock;
         }
 
-        function renderPagination(){
-            const totalPages = Math.ceil(filteredProducts.length / productsPerPageAdmin);
-            const pag = document.getElementById('pagination');
-            if(totalPages <= 1){
-                pag.innerHTML = '';
-                return;
+        document.getElementById('productImage').addEventListener('input', function(){
+            const img = document.getElementById('imagePreview');
+            if(this.value){
+                img.src = this.value;
+                img.style.display = 'block';
+            }else{
+                img.style.display = 'none';
             }
-            let btns = '';
-            for(let i=1;i<=totalPages;i++){
-                btns += `<button class="page-btn ${i===currentProductPage?'active':''}" onclick="changePage(${i})">${i}</button>`;
-            }
-            pag.innerHTML = btns;
-        }
+        });
 
-        function changePage(page){
-            currentProductPage = page;
-            renderProductTable();
-            window.scrollTo({top:0,behavior:'smooth'});
-        }
-
-        function renderOrdersTable(){
-            const tbody = document.getElementById('ordersTableBody');
-            if(orders.length === 0){
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="fas fa-inbox"></i><p>No orders yet</p></td></tr>';
-                return;
-            }
-            tbody.innerHTML = orders.map(o => {
-                const product = products.find(p=>p.name===o.product);
-                const profit = product? (product.price - (product.cost||0)) : 0;
-                return `
-                <tr>
-                    <td>${o.date}</td>
-                    <td><strong>${o.product}</strong></td>
-                    <td>${o.customer}</td>
-                    <td>${o.phone}</td>
-                    <td><strong>Rs ${o.price.toLocaleString()}</strong></td>
-                    <td style="color:var(--success)">Rs ${profit.toLocaleString()}</td>
-                    <td><span class="badge ${o.status==='Paid'?'badge-paid':'badge-pending'}">${o.status}</span></td>
-                    <td>
-                        <div class="action-btns">
-                            ${o.status==='Pending'?`<button class="btn-confirm" onclick="confirmOrder(${o.id})"><i class="fas fa-check"></i></button>`:''}
-                            <button class="btn-delete" onclick="deleteOrder(${o.id})"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-            `}).join('');
-        }
-
-        function renderPaymentsTable(){
-            const tbody = document.getElementById('paymentsTableBody');
-            const jazzcashOrders = orders.filter(o=>o.jazzcash);
-            if(jazzcashOrders.length === 0){
-                tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-mobile-alt"></i><p>No JazzCash payments yet</p></td></tr>';
-                return;
-            }
-            tbody.innerHTML = jazzcashOrders.map(o => `
-                <tr>
-                    <td>${o.date}</td>
-                    <td><strong>${o.product}</strong></td>
-                    <td>${o.customer}</td>
-                    <td><span class="badge badge-jazzcash">${o.jazzcash}</span></td>
-                    <td>${o.tid || 'N/A'}</td>
-                    <td><strong>Rs ${o.price.toLocaleString()}</strong></td>
-                    <td><span class="badge ${o.status==='Paid'?'badge-paid':'badge-pending'}">${o.status}</span></td>
-                </tr>
-            `).join('');
-        }
-
-        function addProduct(){
+        async function addProduct(){
             const name = document.getElementById('productName').value.trim();
             const price = parseInt(document.getElementById('productPrice').value);
-            const oldPrice = parseInt(document.getElementById('productOldPrice').value) || null;
-            const cost = parseInt(document.getElementById('productCost').value) || 0;
-            const stock = parseInt(document.getElementById('productStock').value) || 0;
+            const oldPrice = document.getElementById('productOldPrice').value ? parseInt(document.getElementById('productOldPrice').value) : null;
+            const cost = parseInt(document.getElementById('productCost').value);
+            const stock = parseInt(document.getElementById('productStock').value);
             const category = document.getElementById('productCategory').value;
             const image = document.getElementById('productImage').value.trim();
-            const description = document.getElementById('productDesc').value.trim();
+            const description = document.getElementById('productDescription').value.trim();
             const badge = document.getElementById('productBadge').value;
-            const discount = parseInt(document.getElementById('productDiscount').value) || null;
 
-            if(!name ||!price ||!cost ||!image ||!description){
-                alert('Please fill all required fields including Cost Price!');
+            if(!name || !price || !cost || !stock || !image){
+                alert('Please fill all required fields!');
                 return;
             }
 
-            if(editMode){
-                const idx = products.findIndex(p=>p.id===editId);
-                products[idx] = {
-                  ...products[idx],
-                    name: name,
-                    price: price,
-                    oldPrice: oldPrice,
-                    cost: cost,
-                    stock: stock,
-                    category: category,
-                    image: image,
-                    description: description,
-                    badge: badge || undefined,
-                    discount: discount
-                };
-                editMode = false;
-                editId = null;
-                document.getElementById('btnText').textContent = 'Add Product';
-                document.getElementById('cancelBtn').style.display = 'none';
+            const discount = oldPrice ? Math.round(((oldPrice - price) / oldPrice) * 100) : null;
+            
+            const productData = {
+                name, price, oldPrice, cost, stock, category, image, 
+                description: description || 'Quality product from Trolley Shop',
+                badge, discount, reviews: Math.floor(Math.random() * 100) + 10
+            };
+
+            if(editingProductId){
+                await updateDoc(doc(db, "products", editingProductId), productData);
+                editingProductId = null;
+                document.getElementById('submitBtn').innerHTML = '<i class="fas fa-plus-circle"></i> Add Product to Firebase';
             }else{
-                const newProduct = {
-                    id: Date.now(),
-                    name: name,
-                    price: price,
-                    oldPrice: oldPrice,
-                    cost: cost,
-                    stock: stock,
-                    category: category,
-                    image: image,
-                    description: description,
-                    badge: badge || undefined,
-                    discount: discount,
-                    sold: 0,
-                    reviews: 0
-                };
-                products.unshift(newProduct);
+                await addDoc(collection(db, "products"), productData);
             }
 
-            localStorage.setItem('adminProducts', JSON.stringify(products));
-            
+            showSuccess();
+            clearForm();
+            loadDashboard();
+        }
+
+        function showSuccess(){
             const msg = document.getElementById('successMsg');
             msg.classList.add('show');
-            setTimeout(()=>msg.classList.remove('show'),3000);
-            
-                        document.getElementById('productName').value = '';
-            document.getElementById('productPrice').value = '';
-            document.getElementById('productOldPrice').value = '';
-            document.getElementById('productCost').value = '';
-            document.getElementById('productStock').value = '';
-            document.getElementById('productImage').value = '';
-            document.getElementById('productDesc').value = '';
-            document.getElementById('productBadge').value = '';
-            document.getElementById('productDiscount').value = '';
-            document.getElementById('imgPreview').style.display = 'none';
-            
-            filteredProducts = [...products];
-            currentProductPage = 1;
-            renderProductTable();
-            updateStats();
+            setTimeout(() => msg.classList.remove('show'), 3000);
         }
 
-        function editProduct(id){
-            const product = products.find(p => p.id === id);
-            if(product){
-                editMode = true;
-                editId = id;
-                document.getElementById('productName').value = product.name;
-                document.getElementById('productPrice').value = product.price;
-                document.getElementById('productOldPrice').value = product.oldPrice || '';
-                document.getElementById('productCost').value = product.cost || '';
-                document.getElementById('productStock').value = product.stock || '';
-                document.getElementById('productCategory').value = product.category;
-                document.getElementById('productImage').value = product.image;
-                document.getElementById('productDesc').value = product.description;
-                document.getElementById('productBadge').value = product.badge || '';
-                document.getElementById('productDiscount').value = product.discount || '';
-                previewImage();
-                document.getElementById('btnText').textContent = 'Update Product';
-                document.getElementById('cancelBtn').style.display = 'block';
-                window.scrollTo({top:0,behavior:'smooth'});
-            }
-        }
-
-        function cancelEdit(){
-            editMode = false;
-            editId = null;
+        function clearForm(){
             document.getElementById('productName').value = '';
             document.getElementById('productPrice').value = '';
             document.getElementById('productOldPrice').value = '';
             document.getElementById('productCost').value = '';
             document.getElementById('productStock').value = '';
             document.getElementById('productImage').value = '';
-            document.getElementById('productDesc').value = '';
+            document.getElementById('productDescription').value = '';
             document.getElementById('productBadge').value = '';
-            document.getElementById('productDiscount').value = '';
-            document.getElementById('imgPreview').style.display = 'none';
-            document.getElementById('btnText').textContent = 'Add Product';
-            document.getElementById('cancelBtn').style.display = 'none';
+            document.getElementById('imagePreview').style.display = 'none';
         }
 
-        function deleteProduct(id){
-            if(confirm('Are you sure you want to delete this product?')){
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('adminProducts', JSON.stringify(products));
-                filteredProducts = [...products];
-                renderProductTable();
-                updateStats();
+        function renderProductTable(){
+            const tbody = document.getElementById('productTableBody');
+            if(filteredProducts.length === 0){
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-box-open"></i><p>No products found</p></td></tr>';
+                return;
+            }
+            tbody.innerHTML = filteredProducts.map(p => `
+                <tr>
+                    <td><img src="${p.image}" alt="${p.name}"></td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>Rs ${p.price.toLocaleString()}</td>
+                    <td>${p.stock}</td>
+                    <td><span class="badge badge-cat">${p.category}</span></td>
+                    <td class="action-btns">
+                        <button class="btn-edit" onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function searchProducts(){
+            const query = document.getElementById('productSearch').value.toLowerCase();
+            filteredProducts = products.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.category.toLowerCase().includes(query)
+            );
+            renderProductTable();
+        }
+
+        function editProduct(id){
+            const p = products.find(pr => pr.id === id);
+            if(!p) return;
+            editingProductId = id;
+            document.getElementById('productName').value = p.name;
+            document.getElementById('productPrice').value = p.price;
+            document.getElementById('productOldPrice').value = p.oldPrice || '';
+            document.getElementById('productCost').value = p.cost || '';
+            document.getElementById('productStock').value = p.stock;
+            document.getElementById('productCategory').value = p.category;
+            document.getElementById('productImage').value = p.image;
+            document.getElementById('productDescription').value = p.description;
+            document.getElementById('productBadge').value = p.badge || '';
+            document.getElementById('imagePreview').src = p.image;
+            document.getElementById('imagePreview').style.display = 'block';
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Update Product';
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        async function deleteProduct(id){
+            if(confirm('Delete this product from Firebase?')){
+                await deleteDoc(doc(db, "products", id));
+                loadDashboard();
             }
         }
 
-        function confirmOrder(id){
-            const order = orders.find(o=>o.id===id);
-            if(order){
-                order.status = 'Paid';
-                const product = products.find(p=>p.name===order.product);
-                if(product){
-                    product.sold = (product.sold||0) + 1;
-                    product.stock = Math.max(0,(product.stock||0) - 1);
-                }
-                localStorage.setItem('adminOrders', JSON.stringify(orders));
-                localStorage.setItem('adminProducts', JSON.stringify(products));
-                renderOrdersTable();
-                renderPaymentsTable();
-                renderProductTable();
-                updateStats();
+        function renderOrdersTable(){
+            const tbody = document.getElementById('ordersTableBody');
+            if(orders.length === 0){
+                tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><i class="fas fa-box-open"></i><p>No orders yet</p></td></tr>';
+                return;
             }
+            tbody.innerHTML = orders.sort((a,b) => b.timestamp - a.timestamp).map(o => `
+                <tr>
+                    <td><strong>#${o.id.substring(0,8)}</strong></td>
+                    <td>${o.customer}</td>
+                    <td>${o.phone}</td>
+                    <td><strong>Rs ${o.total.toLocaleString()}</strong></td>
+                    <td><span class="badge ${o.payment === 'jazzcash' ? 'badge-jazzcash' : 'badge-cat'}">${o.payment.toUpperCase()}</span></td>
+                    <td>${o.tid || '-'}</td>
+                    <td><span class="badge ${o.status === 'Paid' ? 'badge-paid' : 'badge-pending'}">${o.status}</span></td>
+                    <td>${o.date}</td>
+                    <td>
+                        ${o.status === 'Pending' ? `<button class="btn-confirm" onclick="confirmOrder('${o.id}')"><i class="fas fa-check"></i></button>` : '-'}
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function deleteOrder(id){
-            if(confirm('Delete this order?')){
-                orders = orders.filter(o=>o.id!==id);
-                localStorage.setItem('adminOrders', JSON.stringify(orders));
-                renderOrdersTable();
-                renderPaymentsTable();
-                updateStats();
+        async function confirmOrder(id){
+            await updateDoc(doc(db, "orders", id), {status: 'Paid'});
+            loadDashboard();
+        }
+
+        function renderJazzCashTable(){
+            const tbody = document.getElementById('jazzcashTableBody');
+            const jcOrders = orders.filter(o => o.payment === 'jazzcash');
+            if(jcOrders.length === 0){
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-receipt"></i><p>No JazzCash payments yet</p></td></tr>';
+                return;
             }
+            tbody.innerHTML = jcOrders.map(o => `
+                <tr>
+                    <td><strong>${o.tid}</strong></td>
+                    <td>${o.customer}</td>
+                    <td>${o.jazzcash}</td>
+                    <td><strong>Rs ${o.total.toLocaleString()}</strong></td>
+                    <td><span class="badge ${o.status === 'Paid' ? 'badge-paid' : 'badge-pending'}">${o.status}</span></td>
+                    <td>${o.date}</td>
+                </tr>
+            `).join('');
         }
 
-        // INIT
-        window.onload = function(){
-            checkLogin();
-        }
-
-        // AUTO SYNC WITH FRONTEND
-        window.addEventListener('storage', function(e) {
-            if(e.key === 'adminOrders') {
-                orders = JSON.parse(localStorage.getItem('adminOrders')) || [];
-                renderOrdersTable();
-                renderPaymentsTable();
-                updateStats();
+        document.addEventListener('keypress', function(e){
+            if(e.key === 'Enter' && document.getElementById('loginScreen').classList.contains('hidden') === false){
+                adminLogin();
             }
         });
     </script>

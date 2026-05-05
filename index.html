@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Trolley Shop - Pro 2050</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
+<link rel="shortcut icon" type="image/png" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
+<link rel="apple-touch-icon" href="https://i.ibb.co/vxV4Y7Lk/trolley-shop.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -250,7 +251,7 @@
                 <span>Trolley Shop</span>
             </div>
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search 600+ products..." onkeyup="searchProducts()">
+                <input type="text" id="searchInput" placeholder="Search 600+ products..." onkeyup="searchProducts()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                 <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
             </div>
             <div class="nav-actions">
@@ -956,6 +957,7 @@
         }
 
         function initApp(){
+            document.getElementById('searchInput').value = ''; // ye line add kar
             loadProductsFromFirebase();
             updateCartCount();
         }

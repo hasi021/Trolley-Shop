@@ -232,16 +232,22 @@
                         <label>Description</label>
                         <textarea id="productDescription" rows="3" placeholder="Product details..."></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Badge (Optional)</label>
-                        <select id="productBadge">
-                            <option value="">None</option>
-                            <option value="NEW">NEW</option>
-                            <option value="HOT">HOT</option>
-                            <option value="SALE">SALE</option>
-                            <option value="BESTSELLER">BESTSELLER</option>
-                        </select>
-                    </div>
+                    <div class="form-grid">
+    <div class="form-group">
+        <label>Badge (Optional)</label>
+        <select id="productBadge">
+            <option value="">No Badge</option>
+            <option value="NEW">NEW</option>
+            <option value="HOT">HOT</option>
+            <option value="SALE">SALE</option>
+            <option value="BESTSELLER">BESTSELLER</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Discount % (Optional)</label>
+        <input type="number" id="productDiscount" placeholder="20" min="0" max="90">
+    </div>
+</div>
                     <button class="btn-primary" onclick="addProduct()" id="submitBtn">
                         <i class="fas fa-plus-circle"></i> Add Product to Firebase
                     </button>

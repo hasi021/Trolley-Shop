@@ -221,8 +221,6 @@
                                 <option value="beauty">Beauty</option>
                             </select>
                         </div>
-                                           </select>
-                    </div>
                     <div class="form-group">
                         <label>Product Image URL *</label>
                         <input type="url" id="productImage" placeholder="https://i.ibb.co/...">
@@ -233,21 +231,21 @@
                         <textarea id="productDescription" rows="3" placeholder="Product details..."></textarea>
                     </div>
                     <div class="form-grid">
-    <div class="form-group">
-        <label>Badge (Optional)</label>
-        <select id="productBadge">
-            <option value="">No Badge</option>
-            <option value="NEW">NEW</option>
-            <option value="HOT">HOT</option>
-            <option value="SALE">SALE</option>
-            <option value="BESTSELLER">BESTSELLER</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Discount % (Optional)</label>
-        <input type="number" id="productDiscount" placeholder="20" min="0" max="90">
-    </div>
-</div>
+                        <div class="form-group">
+                            <label>Badge (Optional)</label>
+                            <select id="productBadge">
+                                <option value="">No Badge</option>
+                                <option value="NEW">NEW</option>
+                                <option value="HOT">HOT</option>
+                                <option value="SALE">SALE</option>
+                                <option value="BESTSELLER">BESTSELLER</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Discount % (Optional)</label>
+                            <input type="number" id="productDiscount" placeholder="20" min="0" max="90">
+                        </div>
+                    </div>
                     <button class="btn-primary" onclick="addProduct()" id="submitBtn">
                         <i class="fas fa-plus-circle"></i> Add Product to Firebase
                     </button>
@@ -382,11 +380,11 @@
         }
 
         async function loadDashboard(){
-            const querySnapshot = await getDocs(collection(db, "products"));
+            const querySnapshot = await window.getDocs(window.collection(window.db, "products"));
             products = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
             filteredProducts = [...products];
             
-            const ordersSnapshot = await getDocs(collection(db, "orders"));
+            const ordersSnapshot = await window.getDocs(window.collection(window.db, "orders"));
             orders = ordersSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
             
             renderProductTable();
@@ -458,17 +456,22 @@
                 badge, discount, reviews: Math.floor(Math.random() * 100) + 10
             };
 
-            if(editingProductId){
-                await updateDoc(doc(db, "products", editingProductId), productData);
-                editingProductId = null;
-                document.getElementById('submitBtn').innerHTML = '<i class="fas fa-plus-circle"></i> Add Product to Firebase';
-            }else{
-                await addDoc(collection(db, "products"), productData);
-            }
+            try {
+                if(editingProductId){
+                    await window.updateDoc(window.doc(window.db, "products", editingProductId), productData);
+                    editingProductId = null;
+                    document.getElementById('submitBtn').innerHTML = '<i class="fas fa-plus-circle"></i> Add Product to Firebase';
+                }else{
+                    await window.addDoc(window.collection(window.db, "products"), productData);
+                }
 
-            showSuccess();
-            clearForm();
-            loadDashboard();
+                showSuccess();
+                clearForm();
+                loadDashboard();
+            } catch (error) {
+                alert("Error: " + error.message);
+                console.log(error);
+            }
         }
 
         function showSuccess(){
@@ -540,7 +543,7 @@
 
         async function deleteProduct(id){
             if(confirm('Delete this product from Firebase?')){
-                await deleteDoc(doc(db, "products", id));
+                await window.deleteDoc(window.doc(window.db, "products", id));
                 loadDashboard();
             }
         }
@@ -569,7 +572,7 @@
         }
 
         async function confirmOrder(id){
-            await updateDoc(doc(db, "orders", id), {status: 'Paid'});
+            await window.updateDoc(window.doc(window.db, "orders", id), {status: 'Paid'});
             loadDashboard();
         }
 
